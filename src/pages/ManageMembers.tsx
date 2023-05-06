@@ -3,7 +3,10 @@ import {Box} from "@mui/material";
 const ManageMembers = () => {
     return (
         <>
-            <Box>Manage Members</Box>
+            <Box
+            >
+                Manage Members
+            </Box>
         </>
     );
 }
