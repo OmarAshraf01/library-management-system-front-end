@@ -1,3 +1,15 @@
 * {
     font-family: "Roboto Light", sans-serif;
 }
+
+#manage-members:hover,
+#manage-members:focus,
+#manage-books:hover,
+#manage-books:focus,
+#issue-books:hover,
+#issue-books:focus,
+#handle-returns:hover,
+#handle-returns:focus {
+    background-color: rgba(245, 222, 179, 0.5) !important;
+    color: white;
+}
