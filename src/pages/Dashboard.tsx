@@ -59,6 +59,9 @@ const Dashboard = () => {
                                     height={"160px"}
                                     width={"200px"}
                                     borderRadius={"8px"}
+                                    sx={{
+                                        transition: "background-color 0.7s, color 0.7s",
+                                    }}
                                 >
                                     <PeopleAltOutlinedIcon
                                         sx={{
@@ -96,6 +99,9 @@ const Dashboard = () => {
                                     height={"160px"}
                                     width={"200px"}
                                     borderRadius={"8px"}
+                                    sx={{
+                                        transition: "background-color 0.7s, color 0.7s",
+                                    }}
                                 >
                                     <AutoStoriesOutlinedIcon
                                         sx={{
@@ -133,6 +139,9 @@ const Dashboard = () => {
                                     height={"160px"}
                                     width={"200px"}
                                     borderRadius={"8px"}
+                                    sx={{
+                                        transition: "background-color 0.7s, color 0.7s",
+                                    }}
                                 >
                                     <ShoppingCartOutlinedIcon
                                         sx={{
@@ -170,6 +179,9 @@ const Dashboard = () => {
                                     height={"160px"}
                                     width={"200px"}
                                     borderRadius={"8px"}
+                                    sx={{
+                                        transition: "background-color 0.7s, color 0.7s",
+                                    }}
                                 >
                                     <SwipeUpOutlinedIcon
                                         sx={{
