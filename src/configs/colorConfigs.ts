@@ -1,5 +1,5 @@
 const colorConfigs = {
-    mainBg: "#6F8FAF"
+    mainBg: "#456381"
 }
 
 export default colorConfigs;

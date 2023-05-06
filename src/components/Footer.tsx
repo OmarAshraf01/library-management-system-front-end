@@ -1,4 +1,4 @@
-import {Box, Link, ThemeProvider, Typography} from "@mui/material";
+import {Box, Link, Typography} from "@mui/material";
 import colorConfigs from "../configs/colorConfigs";
 
 const Footer = () => {

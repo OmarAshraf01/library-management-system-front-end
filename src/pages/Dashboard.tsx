@@ -32,7 +32,8 @@ const Dashboard = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <Typography pt={2} pl={2} pr={2} color={"white"} textAlign={"center"} fontStyle={"italic"}>
-                            A system that enables library administrator to manage members, manage books, manage issue book details and handle returns
+                            A system that enables library administrator to manage members, manage books, manage issue
+                            book details and handle returns
                         </Typography>
                     </Grid>
                 </Grid>
@@ -210,7 +211,7 @@ const Dashboard = () => {
                     <List dense={true}>
                         <ListItem>
                             <ListItemIcon>
-                                <CircleIcon sx={{fontSize: "10px", color: "white"}} />
+                                <CircleIcon sx={{fontSize: "10px", color: "white"}}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="Members are registered to the system by UUID, and no two members can have the same contact number."
@@ -218,7 +219,7 @@ const Dashboard = () => {
                         </ListItem>
                         <ListItem>
                             <ListItemIcon>
-                                <CircleIcon sx={{fontSize: "10px", color: "white"}} />
+                                <CircleIcon sx={{fontSize: "10px", color: "white"}}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="Books are registered to the system by international standard book number (isbn)."
@@ -226,7 +227,7 @@ const Dashboard = () => {
                         </ListItem>
                         <ListItem>
                             <ListItemIcon>
-                                <CircleIcon sx={{fontSize: "10px", color: "white"}} />
+                                <CircleIcon sx={{fontSize: "10px", color: "white"}}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="When members take books from the library they will receive an issue note."
@@ -234,7 +235,7 @@ const Dashboard = () => {
                         </ListItem>
                         <ListItem>
                             <ListItemIcon>
-                                <CircleIcon sx={{fontSize: "10px", color: "white"}} />
+                                <CircleIcon sx={{fontSize: "10px", color: "white"}}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="The issue note contains all the take away book ISBNs along with the member UUID."
@@ -242,7 +243,7 @@ const Dashboard = () => {
                         </ListItem>
                         <ListItem>
                             <ListItemIcon>
-                                <CircleIcon sx={{fontSize: "10px", color: "white"}} />
+                                <CircleIcon sx={{fontSize: "10px", color: "white"}}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="All issue notes have unique issue id to uniquely identify them when the books are returned."
@@ -250,7 +251,7 @@ const Dashboard = () => {
                         </ListItem>
                         <ListItem>
                             <ListItemIcon>
-                                <CircleIcon sx={{fontSize: "10px", color: "white"}} />
+                                <CircleIcon sx={{fontSize: "10px", color: "white"}}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="Issue note can only have maximum 3 distinct ISBNs."
@@ -258,7 +259,7 @@ const Dashboard = () => {
                         </ListItem>
                         <ListItem>
                             <ListItemIcon>
-                                <CircleIcon sx={{fontSize: "10px", color: "white"}} />
+                                <CircleIcon sx={{fontSize: "10px", color: "white"}}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="A member cannot take the same book from the system twice at the same time or at two different times (with another issue note)."
@@ -266,7 +267,7 @@ const Dashboard = () => {
                         </ListItem>
                         <ListItem>
                             <ListItemIcon>
-                                <CircleIcon sx={{fontSize: "10px", color: "white"}} />
+                                <CircleIcon sx={{fontSize: "10px", color: "white"}}/>
                             </ListItemIcon>
                             <ListItemText
                                 primary="A member can only take maximum of 3 different books from the system. If he/she needs another, he/she must return a book that he/she already got."
