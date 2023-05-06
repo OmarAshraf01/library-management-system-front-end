@@ -9,3 +9,7 @@
     background-color: rgba(187, 167, 131, 0.5) !important;
     color: white;
 }
+
+#search-field, #search-field-label {
+    color: white !important;
+}
