@@ -20,8 +20,8 @@ export type MemberAction = {
 }
 
 type Props = {
-    member: Member;
     mode: MemberMode;
+    member: Member;
     action: MemberAction;
 }
 
@@ -31,7 +31,7 @@ type ErrorMsgType = {
     contactError: string;
 }
 
-const CreateEditViewMember = ({member, mode, action} : Props) => {
+const CreateEditViewMember = ({mode, member, action} : Props) => {
     return (
         <>
             <Box
