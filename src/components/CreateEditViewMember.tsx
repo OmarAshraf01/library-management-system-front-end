@@ -1,4 +1,4 @@
-import React, {ChangeEvent, SetStateAction, useState} from "react";
+import React, {ChangeEvent, SetStateAction, useEffect, useState} from "react";
 import {Box, Button, Grid, IconButton, TextField, Typography} from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 
@@ -38,6 +38,31 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
     const [error, setError] = useState<ErrorMsgType>({
         nameError: " ", addressError: " ", contactError: " "
     })
+
+    useEffect(() => {
+        if (mode === MemberMode.CREATE || mode === MemberMode.EDIT) {
+            setTimeout(() => {
+                // @ts-ignore
+                document.getElementById("member-name").focus();
+            }, 500)
+        }
+    }, [])
+
+    useEffect(() => {
+        setNewMember({...member});
+    }, [member])
+
+    const handleClear = () => {
+        setNewMember((prevState: Member) => {
+            return {
+                ...prevState,
+                "id": (mode === MemberMode.EDIT) ? prevState.id : null,
+                "name" : "",
+                "address" : "",
+                "contact" : ""
+            }
+        })
+    }
 
     return (
         <>
@@ -82,6 +107,7 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
                                 label={"Member UUID"}
                                 fullWidth
                                 variant={"standard"}
+                                value={newMember.id}
                                 helperText={"Read Only"}
                             />
                         </Grid>
@@ -203,6 +229,7 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
                             sx={{
                                 fontWeight: "bold"
                             }}
+                            onClick={handleClear}
                         >
                             Clear
                         </Button>

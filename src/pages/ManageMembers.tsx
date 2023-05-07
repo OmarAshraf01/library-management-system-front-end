@@ -219,7 +219,7 @@ const ManageMembers = () => {
                                 </Button>
                             </Box>
                         </Grid>
-                        <Grid item xs={12} pt={4}>
+                        <Grid item xs={12} pt={3} pb={7}>
                             <Box
                                 border={"2px solid white"}
                                 borderRadius={"6px"}
