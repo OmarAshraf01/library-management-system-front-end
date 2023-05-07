@@ -21,6 +21,8 @@
     color: white !important;
 }
 
+#member-uuid,
+#member-uuid-label,
 #member-name,
 #member-name-label,
 #member-address,
@@ -30,6 +32,7 @@
     color: white !important;
 }
 
+#member-uuid-helper-text,
 #member-name-helper-text,
 #member-address-helper-text,
 #member-contact-helper-text {

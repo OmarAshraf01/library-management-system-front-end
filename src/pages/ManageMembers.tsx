@@ -81,17 +81,46 @@ const ManageMembers = () => {
                 return (
                     <>
                         <Tooltip title={"view member"}>
-                            <IconButton>
+                            <IconButton
+                                onClick={() => {
+                                    setSelectedMember((prevState: Member) => {return {...prevState,
+                                        "id": params.row.id,
+                                        "name": params.row.name,
+                                        "address": params.row.address,
+                                        "contact": params.row.contact
+                                    }});
+                                    setOpenViewMember(true);
+                                }}
+                            >
                                 <VisibilityIcon/>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title={"edit member"}>
-                            <IconButton>
+                            <IconButton
+                            onClick={() => {
+                                setSelectedMember((prevState: Member) => {return {...prevState,
+                                    "id": params.row.id,
+                                    "name": params.row.name,
+                                    "address": params.row.address,
+                                    "contact": params.row.contact
+                                }});
+                                setOpenEditMember(true);
+                            }}
+                            >
                                 <EditIcon/>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title={"delete member"}>
-                            <IconButton>
+                            <IconButton
+                                onClick={() => {
+                                    setSelectedMember((prevState: Member) => {return {...prevState,
+                                        "id": params.row.id,
+                                        "name": params.row.name,
+                                        "address": params.row.address,
+                                        "contact": params.row.contact
+                                    }});
+                                }}
+                            >
                                 <DeleteIcon/>
                             </IconButton>
                         </Tooltip>
@@ -242,6 +271,46 @@ const ManageMembers = () => {
                         mode={MemberMode.CREATE}
                         action={{
                             setIsDrawerOpen: setOpenNewMember
+                        }}
+                    />
+                </Box>
+            </Drawer>
+            <Drawer
+                open={openViewMember}
+                anchor={"right"}
+                onClose={() => setOpenViewMember(false)}
+            >
+                <Box
+                    maxWidth={"400px"}
+                    role={"presentation"}
+                    height={"100vh"}
+                    bgcolor={colorConfigs.mainBg}
+                >
+                    <CreateEditViewMember
+                        member={selectedMember}
+                        mode={MemberMode.VIEW}
+                        action={{
+                            setIsDrawerOpen: setOpenViewMember
+                        }}
+                    />
+                </Box>
+            </Drawer>
+            <Drawer
+                open={openEditMember}
+                anchor={"right"}
+                onClose={() => setOpenEditMember(false)}
+            >
+                <Box
+                    maxWidth={"400px"}
+                    role={"presentation"}
+                    height={"100vh"}
+                    bgcolor={colorConfigs.mainBg}
+                >
+                    <CreateEditViewMember
+                        member={selectedMember}
+                        mode={MemberMode.EDIT}
+                        action={{
+                            setIsDrawerOpen: setOpenEditMember
                         }}
                     />
                 </Box>

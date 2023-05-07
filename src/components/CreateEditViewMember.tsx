@@ -59,9 +59,23 @@ const CreateEditViewMember = ({member, mode, action} : Props) => {
                     rowSpacing={3}
                     pt={2} pl={4} pr={4}
                 >
-                    <Grid item xs={12}>
+                    <Grid item xs={12} pb={1}>
                         <Typography variant={"h5"} sx={{color: "white", fontWeight: "bold"}}>{mode.valueOf()} Member</Typography>
                     </Grid>
+                    {
+                        (mode === MemberMode.EDIT || mode === MemberMode.VIEW) &&
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                id={"member-uuid"}
+                                name={"member-uuid"}
+                                label={"Member UUID"}
+                                fullWidth
+                                variant={"standard"}
+                                helperText={"Error"}
+                            />
+                        </Grid>
+                    }
                     <Grid item xs={12}>
                         <TextField
                             required
@@ -96,28 +110,31 @@ const CreateEditViewMember = ({member, mode, action} : Props) => {
                         />
                     </Grid>
                 </Grid>
-                <Box
-                    display={"flex"}
-                    justifyContent={"flex-end"}
-                    gap={2}
-                    pb={2} pt={2} pr={4}
-                >
-                    <Button
-                        variant={"contained"}
-                        color={"inherit"}
-                        sx={{
-                            fontWeight: "bold"
-                        }}
+                {
+                    (mode === MemberMode.CREATE || mode === MemberMode.EDIT) &&
+                    <Box
+                        display={"flex"}
+                        justifyContent={"flex-end"}
+                        gap={2}
+                        pb={2} pt={2} pr={4}
                     >
-                        Clear
-                    </Button>
-                    <Button
-                        variant={"contained"}
-                        sx={{fontWeight: "bold"}}
-                    >
-                        {mode.valueOf()} Member
-                    </Button>
-                </Box>
+                        <Button
+                            variant={"contained"}
+                            color={"inherit"}
+                            sx={{
+                                fontWeight: "bold"
+                            }}
+                        >
+                            Clear
+                        </Button>
+                        <Button
+                            variant={"contained"}
+                            sx={{fontWeight: "bold"}}
+                        >
+                            {mode.valueOf()} Member
+                        </Button>
+                    </Box>
+                }
             </Box>
         </>
     );
