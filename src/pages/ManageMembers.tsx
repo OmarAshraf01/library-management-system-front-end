@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useState} from "react";
 import CreateEditViewMember, {Member, MemberMode} from "../components/CreateEditViewMember";
+import DialogBox, {DialogBoxMode} from "../components/DialogBox";
 
 const rows = [
     { id: 1, name: 'Snow', address: 'Jon dfdf dfdsaf dfadf dasfd', contact: 35 },
@@ -31,6 +32,7 @@ const ManageMembers = () => {
     const [openNewMember, setOpenNewMember] = useState<boolean>(false);
     const [openEditMember, setOpenEditMember] = useState<boolean>(false);
     const [openViewMember, setOpenViewMember] = useState<boolean>(false);
+    const [openDeleteMemberBox, setOpenDeleteMemberBox] = useState<boolean>(false);
 
     const columns: GridColDef[] = [
         {
@@ -119,6 +121,7 @@ const ManageMembers = () => {
                                         "address": params.row.address,
                                         "contact": params.row.contact
                                     }});
+                                    setOpenDeleteMemberBox(true);
                                 }}
                             >
                                 <DeleteIcon/>
@@ -315,6 +318,23 @@ const ManageMembers = () => {
                     />
                 </Box>
             </Drawer>
+            <DialogBox
+                mode={DialogBoxMode.DELETE_MEMBER}
+                data={{
+                    open: openDeleteMemberBox,
+                    dialogTitle: "Delete Member",
+                    dialogContext: "Member UUID :",
+                    txtId: "member-uuid",
+                    txtLabel: "UUID",
+                    txtType: "text",
+                    errorMessages: ["Member UUID is required", "Enter valid member UUID"],
+                    id: selectedMember.id,
+                    actionBtnName: "Delete"
+                }}
+                action={{
+                    onClose: setOpenDeleteMemberBox
+                }}
+            />
         </>
     );
 }
