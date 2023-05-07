@@ -1,4 +1,4 @@
-import React, {SetStateAction, useState} from "react";
+import React, {ChangeEvent, SetStateAction, useEffect, useState} from "react";
 import {
     Box,
     Button,
@@ -41,11 +41,35 @@ const DialogBox = ({mode, data, action} : Props) => {
     const [input, setInput] = useState<string>("");
     const [error, setError] = useState<string>("Initial error must have a whitespace");
 
+    useEffect(() => {
+        setTimeout(() => {
+            if (document.getElementById(`${data.txtId}`) !== null) {
+                // @ts-ignore
+                document.getElementById(`${data.txtId}`).focus();
+            }
+        }, 500)
+    }, [data.open])
+
     const handleCancel = () => {
         action.onClose(false);
         setInput("");
         setError(" ");
     }
+
+    const handleAction = () => {
+        if (error !== " ") {
+            // @ts-ignore
+            document.getElementById(`${data.txtId}`).focus();
+            return;
+        }
+        if (!input) {
+            // @ts-ignore
+            document.getElementById(`${data.txtId}`).focus();
+            setError(data.errorMessages[0]);
+            return;
+        }
+    }
+
     return (
         <>
             <Dialog
@@ -88,6 +112,17 @@ const DialogBox = ({mode, data, action} : Props) => {
                             variant={"standard"}
                             value={input}
                             helperText={error}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                const {value} = event.target;
+                                if (value.trim() === "") {
+                                    setError(data.errorMessages[0]);
+                                }
+                                else if (value !== data.id) {
+                                    setError(data.errorMessages[1]);
+                                }
+                                else (setError(" "));
+                                setInput(value);
+                            }}
                         />
                     </DialogContent>
                     <DialogActions>
@@ -106,6 +141,7 @@ const DialogBox = ({mode, data, action} : Props) => {
                             sx={{
                                 fontWeight: "bold"
                             }}
+                            onClick={handleAction}
                         >
                             {data.actionBtnName}
                         </Button>
