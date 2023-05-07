@@ -39,7 +39,7 @@ const ManageMembers = () => {
             field: 'id',
             headerName: 'UUID',
             type: 'string',
-            minWidth: 150,
+            minWidth: 100,
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -48,7 +48,7 @@ const ManageMembers = () => {
             field: 'name',
             headerName: 'Name',
             type: 'string',
-            minWidth: 150,
+            minWidth: 120,
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -57,7 +57,7 @@ const ManageMembers = () => {
             field: 'address',
             headerName: 'Address',
             type: 'string',
-            minWidth: 200,
+            minWidth: 150,
             sortable: true,
             disableColumnMenu: true,
             flex: 1

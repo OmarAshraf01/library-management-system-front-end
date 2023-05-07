@@ -11,10 +11,13 @@
 }
 
 .css-l4u8b9-MuiInputBase-root-MuiInput-root:before,
-.css-v4u5dn-MuiInputBase-root-MuiInput-root:after,
-.css-v4u5dn-MuiInputBase-root-MuiInput-root:before,
-.css-l4u8b9-MuiInputBase-root-MuiInput-root:after {
+.css-v4u5dn-MuiInputBase-root-MuiInput-root:before {
     border-bottom: 2px solid white !important;
+}
+
+.css-v4u5dn-MuiInputBase-root-MuiInput-root:after,
+.css-l4u8b9-MuiInputBase-root-MuiInput-root:after {
+    border-bottom: 2px solid lightblue !important;
 }
 
 #search-field, #search-field-label {
@@ -37,4 +40,5 @@
 #member-address-helper-text,
 #member-contact-helper-text {
     color: yellow !important;
+    font-weight: bold;
 }
