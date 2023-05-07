@@ -10,6 +10,28 @@
     color: white;
 }
 
+.css-l4u8b9-MuiInputBase-root-MuiInput-root:before,
+.css-v4u5dn-MuiInputBase-root-MuiInput-root:after,
+.css-v4u5dn-MuiInputBase-root-MuiInput-root:before,
+.css-l4u8b9-MuiInputBase-root-MuiInput-root:after {
+    border-bottom: 2px solid white !important;
+}
+
 #search-field, #search-field-label {
     color: white !important;
+}
+
+#member-name,
+#member-name-label,
+#member-address,
+#member-address-label,
+#member-contact,
+#member-contact-label {
+    color: white !important;
+}
+
+#member-name-helper-text,
+#member-address-helper-text,
+#member-contact-helper-text {
+    color: yellow !important;
 }

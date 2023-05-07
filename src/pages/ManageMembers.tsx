@@ -1,14 +1,16 @@
-import {Box, Button, Grid, IconButton, InputAdornment, TextField, Tooltip, Typography} from "@mui/material";
+import {Box, Button, Drawer, Grid, IconButton, InputAdornment, TextField, Tooltip, Typography} from "@mui/material";
 import colorConfigs from "../configs/colorConfigs";
 import Footer from "../components/Footer";
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import CancelIcon from '@mui/icons-material/Cancel';
 import SearchIcon from '@mui/icons-material/Search';
 import {Link} from "react-router-dom";
-import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
+import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {useState} from "react";
+import CreateEditViewMember, {Member, MemberMode} from "../components/CreateEditViewMember";
 
 const rows = [
     { id: 1, name: 'Snow', address: 'Jon dfdf dfdsaf dfadf dasfd', contact: 35 },
@@ -22,76 +24,83 @@ const rows = [
     { id: 9, name: 'Roxie', address: 'Harvey', contact: 65 },
 ];
 
-const columns: GridColDef[] = [
-    {
-        field: 'id',
-        headerName: 'UUID',
-        type: 'string',
-        minWidth: 150,
-        sortable: true,
-        disableColumnMenu: true,
-        flex: 1
-    },
-    {
-        field: 'name',
-        headerName: 'Name',
-        type: 'string',
-        minWidth: 150,
-        sortable: true,
-        disableColumnMenu: true,
-        flex: 1
-    },
-    {
-        field: 'address',
-        headerName: 'Address',
-        type: 'string',
-        minWidth: 200,
-        sortable: true,
-        disableColumnMenu: true,
-        flex: 1
-    },
-    {
-        field: 'contact',
-        headerName: 'Contact',
-        type: 'string',
-        minWidth: 110,
-        sortable: true,
-        disableColumnMenu: true,
-        flex: 1
-    },
-    {
-        field: 'actions',
-        headerName: 'Actions',
-        type: "actions",
-        sortable: false,
-        disableColumnMenu: true,
-        minWidth: 150,
-        flex: 1,
-        renderCell: (params: any) => {
-            return (
-                <>
-                    <Tooltip title={"view member"}>
-                        <IconButton>
-                            <VisibilityIcon/>
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title={"edit member"}>
-                        <IconButton>
-                            <EditIcon/>
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title={"delete member"}>
-                        <IconButton>
-                            <DeleteIcon/>
-                        </IconButton>
-                    </Tooltip>
-                </>
-            );
-        }
-    },
-];
-
 const ManageMembers = () => {
+    const [selectedMember, setSelectedMember] = useState<Member>({
+        id: null, name: "", address: "", contact: ""
+    });
+    const [openNewMember, setOpenNewMember] = useState<boolean>(false);
+    const [openEditMember, setOpenEditMember] = useState<boolean>(false);
+    const [openViewMember, setOpenViewMember] = useState<boolean>(false);
+
+    const columns: GridColDef[] = [
+        {
+            field: 'id',
+            headerName: 'UUID',
+            type: 'string',
+            minWidth: 150,
+            sortable: true,
+            disableColumnMenu: true,
+            flex: 1
+        },
+        {
+            field: 'name',
+            headerName: 'Name',
+            type: 'string',
+            minWidth: 150,
+            sortable: true,
+            disableColumnMenu: true,
+            flex: 1
+        },
+        {
+            field: 'address',
+            headerName: 'Address',
+            type: 'string',
+            minWidth: 200,
+            sortable: true,
+            disableColumnMenu: true,
+            flex: 1
+        },
+        {
+            field: 'contact',
+            headerName: 'Contact',
+            type: 'string',
+            minWidth: 110,
+            sortable: true,
+            disableColumnMenu: true,
+            flex: 1
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            type: "actions",
+            sortable: false,
+            disableColumnMenu: true,
+            minWidth: 150,
+            flex: 1,
+            renderCell: (params: any) => {
+                return (
+                    <>
+                        <Tooltip title={"view member"}>
+                            <IconButton>
+                                <VisibilityIcon/>
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title={"edit member"}>
+                            <IconButton>
+                                <EditIcon/>
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title={"delete member"}>
+                            <IconButton>
+                                <DeleteIcon/>
+                            </IconButton>
+                        </Tooltip>
+                    </>
+                );
+            }
+        },
+    ];
+
     return (
         <>
             <Box
@@ -148,8 +157,7 @@ const ManageMembers = () => {
                                     type="text"
                                     variant="standard"
                                     sx={{
-                                        marginRight: "30px",
-                                        borderBottom: "2px solid white"
+                                        marginRight: "30px"
                                     }}
                                     InputProps={{
                                         endAdornment: (
@@ -165,6 +173,15 @@ const ManageMembers = () => {
                                         fontWeight: "bold"
                                     }}
                                     variant={"contained"}
+                                    onClick={() => {
+                                        setSelectedMember({
+                                            id: null,
+                                            name: "",
+                                            address: "",
+                                            contact: ""
+                                        });
+                                        setOpenNewMember(true);
+                                    }}
                                 >
                                     Add Member
                                 </Button>
@@ -209,6 +226,26 @@ const ManageMembers = () => {
                 </Box>
             </Box>
             <Footer/>
+            <Drawer
+                open={openNewMember}
+                anchor={"right"}
+                onClose={() => setOpenNewMember(false)}
+            >
+                <Box
+                    maxWidth={"400px"}
+                    role={"presentation"}
+                    height={"100vh"}
+                    bgcolor={colorConfigs.mainBg}
+                >
+                    <CreateEditViewMember
+                        member={selectedMember}
+                        mode={MemberMode.CREATE}
+                        action={{
+                            setIsDrawerOpen: setOpenNewMember
+                        }}
+                    />
+                </Box>
+            </Drawer>
         </>
     );
 }
