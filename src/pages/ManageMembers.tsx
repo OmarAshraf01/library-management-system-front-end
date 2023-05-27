@@ -40,6 +40,9 @@ const ManageMembers = () => {
             headerName: 'UUID',
             type: 'string',
             minWidth: 100,
+            renderHeader: (params) => {
+                return <strong>{params.colDef.headerName}</strong>
+            },
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -49,6 +52,9 @@ const ManageMembers = () => {
             headerName: 'Name',
             type: 'string',
             minWidth: 120,
+            renderHeader: (params) => {
+                return <strong>{params.colDef.headerName}</strong>
+            },
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -58,6 +64,9 @@ const ManageMembers = () => {
             headerName: 'Address',
             type: 'string',
             minWidth: 150,
+            renderHeader: (params) => {
+                return <strong>{params.colDef.headerName}</strong>
+            },
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -67,6 +76,9 @@ const ManageMembers = () => {
             headerName: 'Contact',
             type: 'string',
             minWidth: 110,
+            renderHeader: (params) => {
+                return <strong>{params.colDef.headerName}</strong>
+            },
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -78,6 +90,9 @@ const ManageMembers = () => {
             sortable: false,
             disableColumnMenu: true,
             minWidth: 150,
+            renderHeader: (params) => {
+                return <strong>{params.colDef.headerName}</strong>
+            },
             flex: 1,
             renderCell: (params: any) => {
                 return (
