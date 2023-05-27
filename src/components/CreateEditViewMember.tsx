@@ -5,7 +5,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 export enum MemberMode {
     CREATE = "Create",
     EDIT = "Edit",
-    VIEW = "View"
+    VIEW = "View",
 }
 
 export type Member = {
@@ -103,6 +103,7 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
                                     readOnly: (mode === MemberMode.VIEW || mode === MemberMode.EDIT),
                                 }}
                                 id={"member-uuid"}
+                                className={"lms-input-field"}
                                 name={"member-uuid"}
                                 label={"Member UUID"}
                                 fullWidth
@@ -119,6 +120,7 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
                                 readOnly: (mode === MemberMode.VIEW),
                             }}
                             id={"member-name"}
+                            className={"lms-input-field"}
                             name={"member-name"}
                             label={"Member Name"}
                             fullWidth
@@ -153,6 +155,7 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
                                 readOnly: (mode === MemberMode.VIEW),
                             }}
                             id={"member-address"}
+                            className={"lms-input-field"}
                             name={"member-address"}
                             label={"Member Address"}
                             fullWidth
@@ -187,6 +190,7 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
                                 readOnly: (mode === MemberMode.VIEW),
                             }}
                             id={"member-contact"}
+                            className={"lms-input-field"}
                             name={"member-contact"}
                             label={"Member Contact"}
                             fullWidth

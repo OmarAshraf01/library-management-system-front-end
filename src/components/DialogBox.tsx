@@ -39,7 +39,7 @@ type Props = {
 
 const DialogBox = ({mode, data, action} : Props) => {
     const [input, setInput] = useState<string>("");
-    const [error, setError] = useState<string>("Initial error must have a whitespace");
+    const [error, setError] = useState<string>(" ");
 
     useEffect(() => {
         setTimeout(() => {

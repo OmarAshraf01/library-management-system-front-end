@@ -24,21 +24,11 @@
     color: white !important;
 }
 
-#member-uuid,
-#member-uuid-label,
-#member-name,
-#member-name-label,
-#member-address,
-#member-address-label,
-#member-contact,
-#member-contact-label {
+.lms-input-field>label, .lms-input-field>div>input {
     color: white !important;
 }
 
-#member-uuid-helper-text,
-#member-name-helper-text,
-#member-address-helper-text,
-#member-contact-helper-text {
+.lms-input-field>p {
     color: yellow !important;
     font-weight: bold;
 }

@@ -13,16 +13,16 @@ import {useState} from "react";
 import CreateEditViewMember, {Member, MemberMode} from "../components/CreateEditViewMember";
 import DialogBox, {DialogBoxMode} from "../components/DialogBox";
 
-const rows = [
-    { id: "1", name: 'Snow', address: 'Jon dfdf dfdsaf dfadf dasfd', contact: 35 },
+const rows: Member[] = [
+    { id: "1", name: 'Snow', address: 'Jon dfdf dfdsaf dfadf dasfd', contact: "35" },
     { id: "2", name: 'Lannister', address: 'Cersei', contact: "089-3456789" },
-    { id: "3", name: 'Lannister', address: 'Jaime', contact: 45 },
-    { id: "4", name: 'Stark', address: 'Arya', contact: 16 },
-    { id: "5", name: 'Targaryen', address: 'Daenerys', contact: null },
-    { id: "6", name: 'Melisandre', address: null, contact: 150 },
-    { id: "7", name: 'Clifford', address: 'Ferrara', contact: 44 },
-    { id: "8", name: 'Frances', address: 'Rossini', contact: 36 },
-    { id: "9", name: 'Roxie', address: 'Harvey', contact: 65 },
+    { id: "3", name: 'Lannister', address: 'Jaime', contact: "45" },
+    { id: "4", name: 'Stark', address: 'Arya', contact: "16" },
+    { id: "5", name: 'Targaryen', address: 'Daenerys', contact: "45" },
+    { id: "6", name: 'Melisandre', address: "faf", contact: "150" },
+    { id: "7", name: 'Clifford', address: 'Ferrara', contact: "44" },
+    { id: "8", name: 'Frances', address: 'Rossini', contact: "36" },
+    { id: "9", name: 'Roxie', address: 'Harvey', contact: "65" },
 ];
 
 const ManageMembers = () => {
