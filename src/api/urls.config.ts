@@ -1,3 +1,4 @@
+// Member API end points
 export const CREATE_NEW_MEMBER = () => "/members";
 export const EDIT_EXISTING_MEMBER = (memberUUID: string) => `/members/${memberUUID}`;
 export const DELETE_EXISTING_MEMBER = (id: string) => `/members/${id}`;
