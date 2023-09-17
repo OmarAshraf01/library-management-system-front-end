@@ -1,7 +1,6 @@
 import React, {ChangeEvent, SetStateAction, useEffect, useState} from "react";
 import {Box, Button, Grid, IconButton, TextField, Typography} from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
-import {MemberMode} from "./CreateEditViewMember";
 
 export enum BookMode {
     CREATE = "Create",
@@ -100,6 +99,102 @@ const CreateEditViewBook = ({mode, book, action} : Props) => {
                             fullWidth
                             variant={"standard"}
                             value={newBook.isbn}
+                            helperText={(mode === BookMode.VIEW || mode === BookMode.EDIT) ? "Read Only" : error.isbnError}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                const {value} = event.target;
+                                if (value.trim() === "") {
+                                    setError((prevState: ErrorMsgType) => {
+                                        return {...prevState, "isbnError": "Book isbn is required"}
+                                    })
+                                } else if (!/^\d{3}-\d-\d{2}-\d{6}-\d$/.test(value)) {
+                                    setError((prevState: ErrorMsgType) => {
+                                        return {...prevState, "isbnError": "Enter valid book isbn number"}
+                                    })
+                                } else {
+                                    setError((prevState) => {
+                                        return {...prevState, "isbnError": " "}
+                                    })
+                                }
+                                setNewBook((prevState: Book) => {
+                                    return {...prevState, "isbn": value}
+                                })
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            required
+                            id={"book-title"}
+                            className={"lms-input-field"}
+                            name={"book-title"}
+                            label={"Book Title"}
+                            fullWidth
+                            variant={"standard"}
+                            value={newBook.title}
+                            helperText={error.titleError}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                const {value} = event.target;
+                                if (value.trim() === "") {
+                                    setError((prevState: ErrorMsgType) => {
+                                        return {...prevState, "titleError": "Book title is required"}
+                                    })
+                                } else if (!/^[A-Za-z][A-Za-z. ]+$/.test(value)) {
+                                    setError((prevState: ErrorMsgType) => {
+                                        return {...prevState, "titleError": "Enter valid book title"}
+                                    })
+                                } else {
+                                    setError((prevState) => {
+                                        return {...prevState, "titleError": " "}
+                                    })
+                                }
+                                setNewBook((prevState: Book) => {
+                                    return {...prevState, "title": value}
+                                })
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            required
+                            id={"book-author"}
+                            className={"lms-input-field"}
+                            name={"book-author"}
+                            label={"Book Author"}
+                            fullWidth
+                            variant={"standard"}
+                            value={newBook.author}
+                            helperText={error.authorError}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                const {value} = event.target;
+                                if (value.trim() === "") {
+                                    setError((prevState: ErrorMsgType) => {
+                                        return {...prevState, "authorError": "Book author is required"}
+                                    })
+                                } else if (!/^[A-Za-z][A-Za-z. ]+$/.test(value)) {
+                                    setError((prevState: ErrorMsgType) => {
+                                        return {...prevState, "authorError": "Enter valid book author"}
+                                    })
+                                } else {
+                                    setError((prevState) => {
+                                        return {...prevState, "authorError": " "}
+                                    })
+                                }
+                                setNewBook((prevState: Book) => {
+                                    return {...prevState, "author": value}
+                                })
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            required
+                            id={"book-copies"}
+                            className={"lms-input-field"}
+                            name={"book-copies"}
+                            label={"Book Copies"}
+                            fullWidth
+                            variant={"standard"}
+                            value={newBook.copies}
                             helperText={(mode === BookMode.VIEW || mode === BookMode.EDIT) ? "Read Only" : error.isbnError}
                             onChange={(event: ChangeEvent<HTMLInputElement>) => {
                                 const {value} = event.target;

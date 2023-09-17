@@ -106,6 +106,7 @@ const DialogBox = ({mode, data, action} : Props) => {
                             required
                             margin={"dense"}
                             id={data.txtId}
+                            className={"lms-input-field"}
                             label={data.txtLabel}
                             type={data.txtType}
                             fullWidth
