@@ -72,6 +72,7 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
                 display={"flex"}
                 flexDirection={"column"}
                 justifyContent={"space-between"}
+                borderLeft={"2px solid white"}
             >
                 <Box
                     position={"absolute"}

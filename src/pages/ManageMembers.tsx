@@ -44,6 +44,7 @@ const ManageMembers = () => {
                 return <strong>{params.colDef.headerName}</strong>
             },
             headerAlign: 'left',
+            align: 'left',
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -57,6 +58,7 @@ const ManageMembers = () => {
                 return <strong>{params.colDef.headerName}</strong>
             },
             headerAlign: 'left',
+            align: 'left',
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -70,6 +72,7 @@ const ManageMembers = () => {
                 return <strong>{params.colDef.headerName}</strong>
             },
             headerAlign: 'left',
+            align: 'left',
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -83,6 +86,7 @@ const ManageMembers = () => {
                 return <strong>{params.colDef.headerName}</strong>
             },
             headerAlign: 'left',
+            align: 'left',
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -97,7 +101,8 @@ const ManageMembers = () => {
             renderHeader: (params) => {
                 return <strong>{params.colDef.headerName}</strong>
             },
-            headerAlign: 'left',
+            headerAlign: 'center',
+            align: 'center',
             flex: 1,
             renderCell: (params: any) => {
                 return (
