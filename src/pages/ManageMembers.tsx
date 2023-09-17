@@ -16,6 +16,7 @@ import Toast, {ToastData} from "../components/Toast";
 import {getMembersByQuery} from "../api/member/getMembersByQuery";
 import {createNewMember} from "../api/member/createNewMember";
 import {editExistingMember} from "../api/member/editExistingMember";
+import {deleteExistingMember} from "../api/member/deleteExistingMember";
 
 const ManageMembers = () => {
     const [rows, setRows] = useState<Member[]>([]);
@@ -193,6 +194,21 @@ const ManageMembers = () => {
                 setToastConfig({open: true, message: err.message, type: "error"});
             } else {
                 setToastConfig({open: true, message: "Fail to edit existing member", type: "error"});
+            }
+        }
+    }
+
+    const handleDelete = async (id: string) => {
+        try {
+            await deleteExistingMember(id);
+            setToastConfig({open: true, message: "Member deleted successfully", type: "success"});
+            setOpenDeleteMemberBox(false);
+            await handleGetMembersByQuery(searchQuery);
+        } catch (err: any) {
+            if (err instanceof Error) {
+                setToastConfig({open: true, message: err.message, type: "error"});
+            } else {
+                setToastConfig({open: true, message: "Fail to delete member", type: "error"});
             }
         }
     }
@@ -400,7 +416,8 @@ const ManageMembers = () => {
                     actionBtnName: "Delete"
                 }}
                 action={{
-                    onClose: setOpenDeleteMemberBox
+                    onClose: setOpenDeleteMemberBox,
+                    onConfirm: handleDelete
                 }}
             />
             <Toast

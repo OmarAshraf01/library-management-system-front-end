@@ -29,6 +29,7 @@ export type DialogBoxData = {
 
 export type DialogBoxAction = {
     onClose: React.Dispatch<SetStateAction<boolean>>;
+    onConfirm: (id: string) => void;
 }
 
 type Props = {
@@ -69,6 +70,11 @@ const DialogBox = ({mode, data, action} : Props) => {
             document.getElementById(`${data.txtId}`).focus();
             setError(data.errorMessages[0]);
             return;
+        }
+        if (data.id !== null) {
+            if (mode === DialogBoxMode.DELETE_MEMBER) {
+                action.onConfirm(data.id)
+            }
         }
     }
 
