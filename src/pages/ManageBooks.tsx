@@ -8,10 +8,8 @@ import {useState} from "react";
 import CreateEditViewBook, {Book, BookMode} from "../components/CreateEditViewBook";
 import SearchIcon from "@mui/icons-material/Search";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
-import {Member} from "../components/CreateEditViewMember";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 const rows: Book[] = [
     {isbn: "123", title: "ASADASD", author: "dads", copies: 10},
@@ -42,6 +40,7 @@ const ManageBooks = () => {
             renderHeader: (params) => {
                 return <strong>{params.colDef.headerName}</strong>
             },
+            headerAlign: 'left',
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -54,6 +53,7 @@ const ManageBooks = () => {
             renderHeader: (params) => {
                 return <strong>{params.colDef.headerName}</strong>
             },
+            headerAlign: 'left',
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -66,6 +66,7 @@ const ManageBooks = () => {
             renderHeader: (params) => {
                 return <strong>{params.colDef.headerName}</strong>
             },
+            headerAlign: 'left',
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -78,6 +79,7 @@ const ManageBooks = () => {
             renderHeader: (params) => {
                 return <strong>{params.colDef.headerName}</strong>
             },
+            headerAlign: 'left',
             sortable: true,
             disableColumnMenu: true,
             flex: 1
@@ -92,6 +94,7 @@ const ManageBooks = () => {
             renderHeader: (params) => {
                 return <strong>{params.colDef.headerName}</strong>
             },
+            headerAlign: 'left',
             flex: 1,
             renderCell: (params: any) => {
                 return (
