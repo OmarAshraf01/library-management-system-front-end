@@ -107,6 +107,8 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
         }
         if (mode === MemberMode.CREATE) {
             action.onConfirm(newMember);
+        } else if (mode === MemberMode.EDIT) {
+            action.onConfirm(newMember);
         }
     }
 

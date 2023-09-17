@@ -15,6 +15,7 @@ import DialogBox, {DialogBoxMode} from "../components/DialogBox";
 import Toast, {ToastData} from "../components/Toast";
 import {getMembersByQuery} from "../api/member/getMembersByQuery";
 import {createNewMember} from "../api/member/createNewMember";
+import {editExistingMember} from "../api/member/editExistingMember";
 
 const ManageMembers = () => {
     const [rows, setRows] = useState<Member[]>([]);
@@ -176,6 +177,22 @@ const ManageMembers = () => {
                 setToastConfig({open: true, message: err.message, type: "error"});
             } else {
                 setToastConfig({open: true, message: "Fail to create new member", type: "error"});
+            }
+        }
+    }
+
+    const handleUpdate = async (member: Member) => {
+        try {
+            // @ts-ignore
+            await editExistingMember(member.id, member);
+            setOpenEditMember(false);
+            setToastConfig({open: true, message: "Edited member updated successfully", type: "success"});
+            await handleGetMembersByQuery(searchQuery);
+        } catch (err: any) {
+            if (err instanceof Error) {
+                setToastConfig({open: true, message: err.message, type: "error"});
+            } else {
+                setToastConfig({open: true, message: "Fail to edit existing member", type: "error"});
             }
         }
     }
@@ -364,7 +381,7 @@ const ManageMembers = () => {
                         mode={MemberMode.EDIT}
                         action={{
                             setIsDrawerOpen: setOpenEditMember,
-                            onConfirm: () => {}
+                            onConfirm: handleUpdate
                         }}
                     />
                 </Box>
