@@ -17,6 +17,7 @@ export type Member = {
 
 export type MemberAction = {
     setIsDrawerOpen: React.Dispatch<SetStateAction<boolean>>;
+    onConfirm: (member: Member) => void;
 }
 
 type Props = {
@@ -62,6 +63,51 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
                 "contact" : ""
             }
         })
+    }
+
+    const handleAction = () => {
+        if (error.nameError !== " ") {
+            // @ts-ignore
+            document.getElementById("member-name").focus();
+            return;
+        }
+        if (error.addressError !== " ") {
+            // @ts-ignore
+            document.getElementById("member-address").focus();
+            return;
+        }
+        if (error.contactError !== " ") {
+            // @ts-ignore
+            document.getElementById("member-contact").focus();
+            return;
+        }
+        if (!newMember.name || !newMember.address || !newMember.contact) {
+            if (!newMember.contact) {
+                // @ts-ignore
+                document.getElementById("member-contact").focus();
+                setError((prevState) => {
+                    return {...prevState, "contactError": "Member contact number is required"}
+                })
+            }
+            if (!newMember.address) {
+                // @ts-ignore
+                document.getElementById("member-address").focus();
+                setError((prevState) => {
+                    return {...prevState, "addressError": "Member address is required"}
+                })
+            }
+            if (!newMember.name) {
+                // @ts-ignore
+                document.getElementById("member-name").focus();
+                setError((prevState) => {
+                    return {...prevState, "nameError": "Member name is required"}
+                })
+            }
+            return;
+        }
+        if (mode === MemberMode.CREATE) {
+            action.onConfirm(newMember);
+        }
     }
 
     return (
@@ -241,6 +287,7 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
                         <Button
                             variant={"contained"}
                             sx={{fontWeight: "bold"}}
+                            onClick={handleAction}
                         >
                             {mode.valueOf()} Member
                         </Button>

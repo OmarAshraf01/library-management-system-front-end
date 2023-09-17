@@ -14,18 +14,7 @@ import CreateEditViewMember, {Member, MemberMode} from "../components/CreateEdit
 import DialogBox, {DialogBoxMode} from "../components/DialogBox";
 import Toast, {ToastData} from "../components/Toast";
 import {getMembersByQuery} from "../api/member/getMembersByQuery";
-
-// const rows: Member[] = [
-//     { id: "1", name: 'Snow', address: 'Jon dfdf dfdsaf dfadf dasfd', contact: "35" },
-//     { id: "2", name: 'Lannister', address: 'Cersei', contact: "089-3456789" },
-//     { id: "3", name: 'Lannister', address: 'Jaime', contact: "45" },
-//     { id: "4", name: 'Stark', address: 'Arya', contact: "16" },
-//     { id: "5", name: 'Targaryen', address: 'Daenerys', contact: "45" },
-//     { id: "6", name: 'Melisandre', address: "faf", contact: "150" },
-//     { id: "7", name: 'Clifford', address: 'Ferrara', contact: "44" },
-//     { id: "8", name: 'Frances', address: 'Rossini', contact: "36" },
-//     { id: "9", name: 'Roxie', address: 'Harvey', contact: "65" },
-// ];
+import {createNewMember} from "../api/member/createNewMember";
 
 const ManageMembers = () => {
     const [rows, setRows] = useState<Member[]>([]);
@@ -176,6 +165,21 @@ const ManageMembers = () => {
         }
     }
 
+    const handleCreate = async (member: Member) => {
+        try {
+            await createNewMember(member);
+            setOpenNewMember(false);
+            setToastConfig({open: true, message: "Member created successfully", type: "success"});
+            await handleGetMembersByQuery(searchQuery);
+        } catch (err: any) {
+            if (err instanceof Error) {
+                setToastConfig({open: true, message: err.message, type: "error"});
+            } else {
+                setToastConfig({open: true, message: "Fail to create new member", type: "error"});
+            }
+        }
+    }
+
     useEffect(() => {
         handleGetMembersByQuery(searchQuery).then(r => {});
     }, [searchQuery])
@@ -317,7 +321,8 @@ const ManageMembers = () => {
                         member={selectedMember}
                         mode={MemberMode.CREATE}
                         action={{
-                            setIsDrawerOpen: setOpenNewMember
+                            setIsDrawerOpen: setOpenNewMember,
+                            onConfirm: handleCreate
                         }}
                     />
                 </Box>
@@ -337,7 +342,8 @@ const ManageMembers = () => {
                         member={selectedMember}
                         mode={MemberMode.VIEW}
                         action={{
-                            setIsDrawerOpen: setOpenViewMember
+                            setIsDrawerOpen: setOpenViewMember,
+                            onConfirm: () => {}
                         }}
                     />
                 </Box>
@@ -357,7 +363,8 @@ const ManageMembers = () => {
                         member={selectedMember}
                         mode={MemberMode.EDIT}
                         action={{
-                            setIsDrawerOpen: setOpenEditMember
+                            setIsDrawerOpen: setOpenEditMember,
+                            onConfirm: () => {}
                         }}
                     />
                 </Box>
