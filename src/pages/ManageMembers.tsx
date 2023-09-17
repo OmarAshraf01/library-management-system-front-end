@@ -9,30 +9,33 @@ import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CreateEditViewMember, {Member, MemberMode} from "../components/CreateEditViewMember";
 import DialogBox, {DialogBoxMode} from "../components/DialogBox";
+import Toast, {ToastData} from "../components/Toast";
+import {getMembersByQuery} from "../api/member/getMembersByQuery";
 
-const rows: Member[] = [
-    { id: "1", name: 'Snow', address: 'Jon dfdf dfdsaf dfadf dasfd', contact: "35" },
-    { id: "2", name: 'Lannister', address: 'Cersei', contact: "089-3456789" },
-    { id: "3", name: 'Lannister', address: 'Jaime', contact: "45" },
-    { id: "4", name: 'Stark', address: 'Arya', contact: "16" },
-    { id: "5", name: 'Targaryen', address: 'Daenerys', contact: "45" },
-    { id: "6", name: 'Melisandre', address: "faf", contact: "150" },
-    { id: "7", name: 'Clifford', address: 'Ferrara', contact: "44" },
-    { id: "8", name: 'Frances', address: 'Rossini', contact: "36" },
-    { id: "9", name: 'Roxie', address: 'Harvey', contact: "65" },
-];
+// const rows: Member[] = [
+//     { id: "1", name: 'Snow', address: 'Jon dfdf dfdsaf dfadf dasfd', contact: "35" },
+//     { id: "2", name: 'Lannister', address: 'Cersei', contact: "089-3456789" },
+//     { id: "3", name: 'Lannister', address: 'Jaime', contact: "45" },
+//     { id: "4", name: 'Stark', address: 'Arya', contact: "16" },
+//     { id: "5", name: 'Targaryen', address: 'Daenerys', contact: "45" },
+//     { id: "6", name: 'Melisandre', address: "faf", contact: "150" },
+//     { id: "7", name: 'Clifford', address: 'Ferrara', contact: "44" },
+//     { id: "8", name: 'Frances', address: 'Rossini', contact: "36" },
+//     { id: "9", name: 'Roxie', address: 'Harvey', contact: "65" },
+// ];
 
 const ManageMembers = () => {
-    const [selectedMember, setSelectedMember] = useState<Member>({
-        id: null, name: "", address: "", contact: ""
-    });
+    const [rows, setRows] = useState<Member[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [selectedMember, setSelectedMember] = useState<Member>({id: null, name: "", address: "", contact: ""});
     const [openNewMember, setOpenNewMember] = useState<boolean>(false);
     const [openEditMember, setOpenEditMember] = useState<boolean>(false);
     const [openViewMember, setOpenViewMember] = useState<boolean>(false);
     const [openDeleteMemberBox, setOpenDeleteMemberBox] = useState<boolean>(false);
+    const [toastConfig, setToastConfig] = useState<ToastData>({ open: false, message: "", type: "success" });
 
     const columns: GridColDef[] = [
         {
@@ -158,6 +161,25 @@ const ManageMembers = () => {
         },
     ];
 
+    const handleToastOnclose = (state: boolean) => {setToastConfig((prevState: ToastData) => { return { ...prevState, "open": state } })};
+
+    const handleGetMembersByQuery = async (query: string) => {
+        try {
+            const response = await getMembersByQuery(query);
+            setRows(response.data);
+        } catch (err: any) {
+            if (err instanceof Error) {
+                setToastConfig({open: true, message: err.message, type: "error"});
+            } else {
+                setToastConfig({open: true, message: "Fail to load member details", type: "error"});
+            }
+        }
+    }
+
+    useEffect(() => {
+        handleGetMembersByQuery(searchQuery).then(r => {});
+    }, [searchQuery])
+
     return (
         <>
             <Box
@@ -216,6 +238,7 @@ const ManageMembers = () => {
                                     sx={{
                                         marginRight: "30px"
                                     }}
+                                    value={searchQuery}
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
@@ -223,6 +246,7 @@ const ManageMembers = () => {
                                             </InputAdornment>
                                         )
                                     }}
+                                    onChange={(event) => {setSearchQuery(event.target.value)}}
                                 />
                                 <Button
                                     sx={{
@@ -353,6 +377,12 @@ const ManageMembers = () => {
                 }}
                 action={{
                     onClose: setOpenDeleteMemberBox
+                }}
+            />
+            <Toast
+                data={toastConfig}
+                action={{
+                    onClose: handleToastOnclose
                 }}
             />
         </>

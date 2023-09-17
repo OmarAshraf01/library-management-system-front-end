@@ -42,6 +42,8 @@ const DialogBox = ({mode, data, action} : Props) => {
     const [error, setError] = useState<string>(" ");
 
     useEffect(() => {
+        setInput("");
+        setError(" ");
         setTimeout(() => {
             if (document.getElementById(`${data.txtId}`) !== null) {
                 // @ts-ignore
