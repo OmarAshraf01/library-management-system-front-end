@@ -224,13 +224,8 @@ const ManageBooks = () => {
                                     border={"2px solid white"}
                                     borderRadius={"6px"}
                                 >
-                                    <Typography
-                                        pl={2} pt={1} pb={1}
-                                        bgcolor={"white"}
-                                    >
-                                        Book List
-                                    </Typography>
                                     <Box
+                                        p={1}
                                         style={{
                                             height: 400,
                                             width: "100%",
