@@ -14,20 +14,7 @@ import {Member} from "../components/CreateEditViewMember";
 import Toast, {ToastData} from "../components/Toast";
 import {getBooksByQuery} from "../api/book/getBooksByQuery";
 import {createNewBook} from "../api/book/createNewBook";
-import {editExistingMember} from "../api/member/editExistingMember";
 import {editExistingBook} from "../api/book/editExistingBook";
-
-// const rows: Book[] = [
-//     {isbn: "123", title: "ASADASD", author: "dads", copies: 10},
-//     {isbn: "234", title: "sadasd", author: "asdasd", copies: 10},
-//     {isbn: "456", title: "dssa", author: "asdasdasd", copies: 10},
-//     {isbn: "567", title: "sadasd", author: "asdasd", copies: 10},
-//     {isbn: "678", title: "asdasd", author: "asdasdasd", copies: 10},
-//     {isbn: "789", title: "asdasd", author: "sdasdsad", copies: 10},
-//     {isbn: "890", title: "asdasd", author: "asdasdasd", copies: 10},
-//     {isbn: "235", title: "asdasd", author: "asdasdasd", copies: 10},
-//     {isbn: "678", title: "asdasd", author: "sdasdasd", copies: 10},
-// ]
 
 const ManageBooks = () => {
     const [rows, setRows] = useState<Member[]>([]);
@@ -262,7 +249,12 @@ const ManageBooks = () => {
                                             </InputAdornment>
                                         )
                                     }}
-                                    onChange={(event) => {setSearchQuery(event.target.value)}}
+                                    onChange={(event) => {
+                                        const value = event.target.value;
+                                        // Remove characters \, {, }, [, ], |, ^, `, %, &, #, +, _
+                                        const filteredValue = value.replace(/[\\{}[\]|^`%&#_+]/g, "");
+                                        setSearchQuery(filteredValue);
+                                    }}
                                 />
                                 <Button
                                     sx={{

@@ -283,7 +283,12 @@ const ManageMembers = () => {
                                             </InputAdornment>
                                         )
                                     }}
-                                    onChange={(event) => {setSearchQuery(event.target.value)}}
+                                    onChange={(event) => {
+                                        const value = event.target.value;
+                                        // Remove characters \, {, }, [, ], |, ^, `, %, &, #, +, _
+                                        const filteredValue = value.replace(/[\\{}[\]|^`%&#_+]/g, "");
+                                        setSearchQuery(filteredValue);
+                                    }}
                                 />
                                 <Button
                                     sx={{
