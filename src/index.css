@@ -42,3 +42,7 @@
 .lms-grid .MuiTablePagination-root {
     color: white;
 }
+
+.lms-grid .MuiDataGrid-cell:focus {
+    outline: none !important;
+}
