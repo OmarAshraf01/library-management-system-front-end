@@ -30,7 +30,7 @@ const ManageBooks = () => {
             field: 'isbn',
             headerName: 'ISBN',
             type: 'string',
-            minWidth: 100,
+            minWidth: 150,
             renderHeader: (params) => {
                 return <strong>{params.colDef.headerName}</strong>
             },
@@ -44,7 +44,7 @@ const ManageBooks = () => {
             field: 'title',
             headerName: 'Title',
             type: 'string',
-            minWidth: 120,
+            minWidth: 300,
             renderHeader: (params) => {
                 return <strong>{params.colDef.headerName}</strong>
             },
@@ -58,7 +58,7 @@ const ManageBooks = () => {
             field: 'author',
             headerName: 'Author',
             type: 'string',
-            minWidth: 150,
+            minWidth: 200,
             renderHeader: (params) => {
                 return <strong>{params.colDef.headerName}</strong>
             },
@@ -72,7 +72,7 @@ const ManageBooks = () => {
             field: 'copies',
             headerName: 'Copies',
             type: 'number',
-            minWidth: 110,
+            minWidth: 100,
             renderHeader: (params) => {
                 return <strong>{params.colDef.headerName}</strong>
             },
