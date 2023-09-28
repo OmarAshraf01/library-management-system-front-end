@@ -1,7 +1,7 @@
 import React, {ChangeEvent, SetStateAction, useEffect, useState} from "react";
 import {Box, Button, Grid, IconButton, TextField, Typography} from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
-import {MemberMode} from "./CreateEditViewMember";
+import {Member, MemberMode} from "./CreateEditViewMember";
 
 export enum BookMode {
     CREATE = "Create",
@@ -18,6 +18,7 @@ export type Book = {
 
 export type BookAction = {
     setIsDrawerOpen: React.Dispatch<SetStateAction<boolean>>
+    onConfirm: (book: Book) => void;
 }
 
 type Props = {
@@ -106,7 +107,7 @@ const CreateEditViewBook = ({mode, book, action} : Props) => {
             }
             return;
         }
-
+        action.onConfirm(newBook);
     }
 
     return (

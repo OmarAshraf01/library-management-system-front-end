@@ -55,13 +55,10 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
 
     const handleClear = () => {
         setNewMember((prevState: Member) => {
-            return {
-                ...prevState,
-                "id": (mode === MemberMode.EDIT) ? prevState.id : null,
-                "name" : "",
-                "address" : "",
-                "contact" : ""
-            }
+            return {...prevState, "id": (mode === MemberMode.EDIT) ? prevState.id : null, "name" : "", "address" : "", "contact" : ""}
+        })
+        setError((prevState) => {
+            return {...prevState, "nameError": " ", "addressError": " ", "contactError": " "}
         })
     }
 
@@ -105,11 +102,7 @@ const CreateEditViewMember = ({mode, member, action} : Props) => {
             }
             return;
         }
-        if (mode === MemberMode.CREATE) {
-            action.onConfirm(newMember);
-        } else if (mode === MemberMode.EDIT) {
-            action.onConfirm(newMember);
-        }
+        action.onConfirm(newMember);
     }
 
     return (
