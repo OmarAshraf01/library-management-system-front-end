@@ -4,8 +4,6 @@ import SharedLayout from "./pages/SharedLayout";
 import Dashboard from "./pages/Dashboard";
 import ManageMembers from "./pages/ManageMembers";
 import ManageBooks from "./pages/ManageBooks";
-import IssueBooks from "./pages/IssueBooks";
-import HandleReturns from "./pages/HandleReturns";
 
 function App() {
     return (
@@ -15,8 +13,6 @@ function App() {
                     <Route index element={<Dashboard/>}/>
                     <Route path={"manage-members"} element={<ManageMembers/>}/>
                     <Route path={"manage-books"} element={<ManageBooks/>}/>
-                    <Route path={"issue-books"} element={<IssueBooks/>}/>
-                    <Route path={"handle-returns"} element={<HandleReturns/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

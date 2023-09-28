@@ -1,4 +1,4 @@
-import {Box, Grid, List, ListItem, ListItemIcon, ListItemText, Typography} from "@mui/material";
+import {Box, Drawer, Grid, List, ListItem, ListItemIcon, ListItemText, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import Footer from "../components/Footer";
 import colorConfigs from "../configs/colorConfigs";
@@ -7,8 +7,12 @@ import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SwipeUpOutlinedIcon from '@mui/icons-material/SwipeUpOutlined';
 import CircleIcon from '@mui/icons-material/Circle';
+import {useState} from "react";
+import IssueBooks from "../components/IssueBooks";
 
 const Dashboard = () => {
+    const [openIssueBooks, setOpenIssueBooks] = useState<boolean>(false);
+
     return (
         <>
             <Box
@@ -129,7 +133,9 @@ const Dashboard = () => {
                                     textDecoration: 'none',
                                     color: "#088F8F"
                                 }}
-                                to={"/issue-books"}>
+                                onClick={() => {setOpenIssueBooks(true)}}
+                                to={"#"}
+                            >
                                 <Box
                                     id={"issue-books"}
                                     bgcolor={"white"}
@@ -277,6 +283,22 @@ const Dashboard = () => {
                 </Box>
             </Box>
             <Footer/>
+            <Drawer
+                open={openIssueBooks}
+                anchor={"right"}
+                onClose={() => setOpenIssueBooks(false)}
+            >
+                <Box
+                    maxWidth={"400px"}
+                    role={"presentation"}
+                    height={"100vh"}
+                    bgcolor={colorConfigs.mainBg}
+                >
+                    <IssueBooks
+                        isDrawerOpen={setOpenIssueBooks}
+                    />
+                </Box>
+            </Drawer>
         </>
     )
 }
