@@ -4,7 +4,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import colorConfigs from "../configs/colorConfigs";
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import Footer from "../components/Footer";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CreateEditViewBook, {Book, BookMode} from "../components/CreateEditViewBook";
 import SearchIcon from "@mui/icons-material/Search";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
@@ -12,6 +12,10 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import {Member} from "../components/CreateEditViewMember";
 import Toast, {ToastData} from "../components/Toast";
+import {getBooksByQuery} from "../api/book/getBooksByQuery";
+import {createNewBook} from "../api/book/createNewBook";
+import {editExistingMember} from "../api/member/editExistingMember";
+import {editExistingBook} from "../api/book/editExistingBook";
 
 // const rows: Book[] = [
 //     {isbn: "123", title: "ASADASD", author: "dads", copies: 10},
@@ -143,7 +147,54 @@ const ManageBooks = () => {
         },
     ];
 
+    const handleGetBooksByQuery = async (query: string) => {
+        try {
+            const response = await getBooksByQuery(query);
+            setRows(response.data);
+        } catch (err: any) {
+            if (err instanceof Error) {
+                setToastConfig({open: true, message: err.message, type: "error"});
+            } else {
+                setToastConfig({open: true, message: "Fail to load book details", type: "error"});
+            }
+        }
+    }
+
+    const handleCreate = async (book: Book) => {
+        try {
+            await createNewBook(book);
+            setOpenNewBook(false);
+            setToastConfig({open: true, message: "Book details created successfully", type: "success"});
+            await handleGetBooksByQuery(searchQuery);
+        } catch (err: any) {
+            if (err instanceof Error) {
+                setToastConfig({open: true, message: err.message, type: "error"});
+            } else {
+                setToastConfig({open: true, message: "Fail to create book details", type: "error"});
+            }
+        }
+    }
+
+    const handleUpdate = async (book: Book) => {
+        try {
+            await editExistingBook(book.isbn, book);
+            setOpenEditBook(false);
+            setToastConfig({open: true, message: "Edited book details updated successfully", type: "success"});
+            await handleGetBooksByQuery(searchQuery);
+        } catch (err: any) {
+            if (err instanceof Error) {
+                setToastConfig({open: true, message: err.message, type: "error"});
+            } else {
+                setToastConfig({open: true, message: "Fail to edit existing book details", type: "error"});
+            }
+        }
+    }
+
     const handleToastOnclose = (state: boolean) => {setToastConfig((prevState: ToastData) => { return { ...prevState, "open": state } })};
+
+    useEffect(() => {
+        handleGetBooksByQuery(searchQuery).then(r => {})
+    }, [searchQuery])
 
     return (
         <>
@@ -203,6 +254,7 @@ const ManageBooks = () => {
                                     sx={{
                                         marginRight: "30px"
                                     }}
+                                    value={searchQuery}
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
@@ -210,6 +262,7 @@ const ManageBooks = () => {
                                             </InputAdornment>
                                         )
                                     }}
+                                    onChange={(event) => {setSearchQuery(event.target.value)}}
                                 />
                                 <Button
                                     sx={{
@@ -284,7 +337,7 @@ const ManageBooks = () => {
                         mode={BookMode.CREATE}
                         action={{
                             setIsDrawerOpen: setOpenNewBook,
-                            onConfirm: () => {}
+                            onConfirm: handleCreate
                         }}
                     />
                 </Box>
@@ -326,7 +379,7 @@ const ManageBooks = () => {
                         mode={BookMode.EDIT}
                         action={{
                             setIsDrawerOpen: setOpenEditBook,
-                            onConfirm: () => {}
+                            onConfirm: handleUpdate
                         }}
                     />
                 </Box>

@@ -171,13 +171,13 @@ const ManageMembers = () => {
         try {
             await createNewMember(member);
             setOpenNewMember(false);
-            setToastConfig({open: true, message: "Member created successfully", type: "success"});
+            setToastConfig({open: true, message: "Member details created successfully", type: "success"});
             await handleGetMembersByQuery(searchQuery);
         } catch (err: any) {
             if (err instanceof Error) {
                 setToastConfig({open: true, message: err.message, type: "error"});
             } else {
-                setToastConfig({open: true, message: "Fail to create new member", type: "error"});
+                setToastConfig({open: true, message: "Fail to create member details", type: "error"});
             }
         }
     }
@@ -187,13 +187,13 @@ const ManageMembers = () => {
             // @ts-ignore
             await editExistingMember(member.id, member);
             setOpenEditMember(false);
-            setToastConfig({open: true, message: "Edited member updated successfully", type: "success"});
+            setToastConfig({open: true, message: "Edited member details updated successfully", type: "success"});
             await handleGetMembersByQuery(searchQuery);
         } catch (err: any) {
             if (err instanceof Error) {
                 setToastConfig({open: true, message: err.message, type: "error"});
             } else {
-                setToastConfig({open: true, message: "Fail to edit existing member", type: "error"});
+                setToastConfig({open: true, message: "Fail to edit existing member details", type: "error"});
             }
         }
     }
