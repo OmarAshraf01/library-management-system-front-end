@@ -1,7 +1,6 @@
 import {Box, Button, Grid, IconButton, TextField, Typography} from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import React, {SetStateAction, useState} from "react";
-import {MemberMode} from "./CreateEditViewMember";
 
 type Props = {
     isDrawerOpen: React.Dispatch<SetStateAction<boolean>>
