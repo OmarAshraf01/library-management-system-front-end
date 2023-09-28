@@ -1,6 +1,7 @@
 import React, {ChangeEvent, SetStateAction, useEffect, useState} from "react";
 import {Box, Button, Grid, IconButton, TextField, Typography} from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import {MemberMode} from "./CreateEditViewMember";
 
 export enum BookMode {
     CREATE = "Create",
@@ -46,14 +47,66 @@ const CreateEditViewBook = ({mode, book, action} : Props) => {
 
     const handleClear = () => {
         setNewBook((prevState) => {
-            return {
-                ...prevState,
-                "isbn": (mode === BookMode.EDIT) ? prevState.isbn : "",
-                "title": "",
-                "author": "",
-                "copies": 0
-            }
+            return {...prevState, "isbn": (mode === BookMode.EDIT) ? prevState.isbn : "", "title": "", "author": "", "copies": 0}
         })
+        setError((prevState) => {
+            return {...prevState, "isbnError": " ", "titleError": " ", "authorError": " ", "copiesError": " "}
+        })
+    }
+
+    const handleAction = () => {
+        if (error.isbnError !== " ") {
+            // @ts-ignore
+            document.getElementById("book-isbn").focus();
+            return;
+        }
+        if (error.titleError !== " ") {
+            // @ts-ignore
+            document.getElementById("book-title").focus();
+            return;
+        }
+        if (error.authorError !== " ") {
+            // @ts-ignore
+            document.getElementById("book-author").focus();
+            return;
+        }
+        if (error.copiesError !== " ") {
+            // @ts-ignore
+            document.getElementById("book-copies").focus();
+            return;
+        }
+        if (!newBook.isbn || !newBook.title || !newBook.author || newBook.copies === 0) {
+            if (newBook.copies === 0) {
+                // @ts-ignore
+                document.getElementById("book-copies").focus();
+                setError((prevState) => {
+                    return {...prevState, "copiesError": "Book copies are required"}
+                })
+            }
+            if (!newBook.author) {
+                // @ts-ignore
+                document.getElementById("book-author").focus();
+                setError((prevState) => {
+                    return {...prevState, "authorError": "Book author is required"}
+                })
+            }
+            if (!newBook.title) {
+                // @ts-ignore
+                document.getElementById("book-title").focus();
+                setError((prevState) => {
+                    return {...prevState, "titleError": "Book title is required"}
+                })
+            }
+            if (!newBook.isbn) {
+                // @ts-ignore
+                document.getElementById("book-isbn").focus();
+                setError((prevState) => {
+                    return {...prevState, "isbnError": "Book isbn is required"}
+                })
+            }
+            return;
+        }
+
     }
 
     return (
@@ -125,6 +178,9 @@ const CreateEditViewBook = ({mode, book, action} : Props) => {
                     <Grid item xs={12}>
                         <TextField
                             required
+                            InputProps={{
+                                readOnly: (mode === BookMode.VIEW),
+                            }}
                             id={"book-title"}
                             className={"lms-input-field"}
                             name={"book-title"}
@@ -132,7 +188,7 @@ const CreateEditViewBook = ({mode, book, action} : Props) => {
                             fullWidth
                             variant={"standard"}
                             value={newBook.title}
-                            helperText={error.titleError}
+                            helperText={(mode === BookMode.VIEW) ? "Read Only" : error.titleError}
                             onChange={(event: ChangeEvent<HTMLInputElement>) => {
                                 const {value} = event.target;
                                 if (value.trim() === "") {
@@ -157,6 +213,9 @@ const CreateEditViewBook = ({mode, book, action} : Props) => {
                     <Grid item xs={12}>
                         <TextField
                             required
+                            InputProps={{
+                                readOnly: (mode === BookMode.VIEW),
+                            }}
                             id={"book-author"}
                             className={"lms-input-field"}
                             name={"book-author"}
@@ -164,7 +223,7 @@ const CreateEditViewBook = ({mode, book, action} : Props) => {
                             fullWidth
                             variant={"standard"}
                             value={newBook.author}
-                            helperText={error.authorError}
+                            helperText={(mode === BookMode.VIEW) ? "Read Only" : error.authorError}
                             onChange={(event: ChangeEvent<HTMLInputElement>) => {
                                 const {value} = event.target;
                                 if (value.trim() === "") {
@@ -189,32 +248,41 @@ const CreateEditViewBook = ({mode, book, action} : Props) => {
                     <Grid item xs={12}>
                         <TextField
                             required
+                            InputProps={{
+                                readOnly: (mode === BookMode.VIEW),
+                            }}
                             id={"book-copies"}
                             className={"lms-input-field"}
                             name={"book-copies"}
                             label={"Book Copies"}
                             fullWidth
                             variant={"standard"}
-                            value={newBook.copies}
-                            helperText={(mode === BookMode.VIEW || mode === BookMode.EDIT) ? "Read Only" : error.isbnError}
+                            type={"number"}
+                            value={(newBook.copies === 0) ? "" : newBook.copies}
+                            inputProps={{min: "0", max: "50"}}
+                            helperText={(mode === BookMode.VIEW) ? "Read Only" : error.copiesError}
+                            onKeyDown={(event) => {
+                                if (event.key === "e" || event.key === "-" || event.key === "." || event.key === "+" || event.key === "E") {
+                                    event.preventDefault();
+                                }
+                            }}
                             onChange={(event: ChangeEvent<HTMLInputElement>) => {
                                 const {value} = event.target;
-                                if (value.trim() === "") {
-                                    setError((prevState: ErrorMsgType) => {
-                                        return {...prevState, "isbnError": "Book isbn is required"}
+                                if (value === "") {
+                                    setNewBook((prevState: Book) => {
+                                        return {...prevState, "copies": 0}
                                     })
-                                } else if (!/^\d{3}-\d-\d{2}-\d{6}-\d$/.test(value)) {
-                                    setError((prevState: ErrorMsgType) => {
-                                        return {...prevState, "isbnError": "Enter valid book isbn number"}
-                                    })
-                                } else {
                                     setError((prevState) => {
-                                        return {...prevState, "isbnError": " "}
+                                        return {...prevState, "copiesError": "Book copies are required"}
+                                    })
+                                } else if (!isNaN(Number(value)) && Number(value) <= 50) {
+                                    setNewBook((prevState: Book) => {
+                                        return {...prevState, "copies": Number(value)}
+                                    })
+                                    setError((prevState) => {
+                                        return {...prevState, "copiesError": " "}
                                     })
                                 }
-                                setNewBook((prevState: Book) => {
-                                    return {...prevState, "isbn": value}
-                                })
                             }}
                         />
                     </Grid>
@@ -240,6 +308,7 @@ const CreateEditViewBook = ({mode, book, action} : Props) => {
                         <Button
                             variant={"contained"}
                             sx={{fontWeight: "bold"}}
+                            onClick={handleAction}
                         >
                             {mode.valueOf()} Book
                         </Button>
