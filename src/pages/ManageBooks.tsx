@@ -110,7 +110,10 @@ const ManageBooks = () => {
                                     setOpenViewBook(true);
                                 }}
                             >
-                                <VisibilityIcon/>
+                                <VisibilityIcon
+                                    color={"inherit"}
+                                    sx={{color: "white"}}
+                                />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title={"edit book"}>
@@ -125,7 +128,10 @@ const ManageBooks = () => {
                                     setOpenEditBook(true);
                                 }}
                             >
-                                <EditIcon/>
+                                <EditIcon
+                                    color={"inherit"}
+                                    sx={{color: "white"}}
+                                />
                             </IconButton>
                         </Tooltip>
                     </>
@@ -283,6 +289,7 @@ const ManageBooks = () => {
                             >
                                 <Box
                                     p={1}
+                                    className={"lms-grid"}
                                     style={{
                                         height: 400,
                                         width: "100%",

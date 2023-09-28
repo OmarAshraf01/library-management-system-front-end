@@ -113,7 +113,10 @@ const ManageMembers = () => {
                                     setOpenViewMember(true);
                                 }}
                             >
-                                <VisibilityIcon/>
+                                <VisibilityIcon
+                                    color={"inherit"}
+                                    sx={{color: "white"}}
+                                />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title={"edit member"}>
@@ -128,7 +131,10 @@ const ManageMembers = () => {
                                 setOpenEditMember(true);
                             }}
                             >
-                                <EditIcon/>
+                                <EditIcon
+                                    color={"inherit"}
+                                    sx={{color: "white"}}
+                                />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title={"delete member"}>
@@ -143,7 +149,10 @@ const ManageMembers = () => {
                                     setOpenDeleteMemberBox(true);
                                 }}
                             >
-                                <DeleteIcon/>
+                                <DeleteIcon
+                                    color={"inherit"}
+                                    sx={{color: "white"}}
+                                />
                             </IconButton>
                         </Tooltip>
                     </>
@@ -317,6 +326,7 @@ const ManageMembers = () => {
                             >
                                 <Box
                                     p={1}
+                                    className={"lms-grid"}
                                     style={{
                                         height: 400,
                                         width: "100%",

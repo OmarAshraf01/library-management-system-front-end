@@ -32,3 +32,13 @@
     color: yellow !important;
     font-weight: bold;
 }
+
+.lms-grid {
+    background-color: transparent !important;
+}
+
+.lms-grid .MuiDataGrid-cell,
+.lms-grid .MuiDataGrid-columnHeader,
+.lms-grid .MuiTablePagination-root {
+    color: white;
+}
