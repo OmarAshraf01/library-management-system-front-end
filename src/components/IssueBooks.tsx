@@ -1,5 +1,6 @@
 import {Box, Button, Grid, IconButton, TextField, Typography} from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import React, {SetStateAction, useState} from "react";
 
 type Props = {
@@ -37,8 +38,9 @@ const IssueBooks = ({isDrawerOpen}: Props) => {
                     rowSpacing={3}
                     pt={2} pl={4} pr={4}
                 >
-                    <Grid item xs={12} pb={1}>
-                        <Typography variant={"h5"} sx={{color: "white", fontWeight: "bold"}}>Issue Books</Typography>
+                    <Grid display={"flex"} alignItems={"center"} item xs={12} pb={1}>
+                        <ShoppingCartOutlinedIcon sx={{color: "white"}}/>
+                        <Typography pl={1} variant={"h5"} sx={{color: "white", fontWeight: "bold"}}>Issue Books</Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
