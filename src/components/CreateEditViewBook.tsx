@@ -43,6 +43,20 @@ const CreateEditViewBook = ({mode, book, action} : Props) => {
     })
 
     useEffect(() => {
+        if (mode === BookMode.CREATE) {
+            setTimeout(() => {
+                // @ts-ignore
+                document.getElementById("book-isbn").focus();
+            }, 500)
+        } else if (mode === BookMode.EDIT) {
+            setTimeout(() => {
+                // @ts-ignore
+                document.getElementById("book-title").focus();
+            }, 500)
+        }
+    }, [])
+
+    useEffect(() => {
         setNewBook({...book})
     }, [book])
 
