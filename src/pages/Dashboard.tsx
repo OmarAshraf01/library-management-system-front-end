@@ -7,11 +7,30 @@ import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SwipeUpOutlinedIcon from '@mui/icons-material/SwipeUpOutlined';
 import CircleIcon from '@mui/icons-material/Circle';
-import {useState} from "react";
-import IssueBooks from "../components/IssueBooks";
+import React, {useState} from "react";
+import IssueBooks, {IssueNote} from "../components/IssueBooks";
+import {createNewIssueNote} from "../api/issue-note/createNewIssueNote";
+import Toast, {ToastData} from "../components/Toast";
 
 const Dashboard = () => {
     const [openIssueBooks, setOpenIssueBooks] = useState<boolean>(false);
+    const [toastConfig, setToastConfig] = useState<ToastData>({ open: false, message: "", type: "success" });
+
+    const handleCreateNewIssueNote = async (issueNote: IssueNote) => {
+        try {
+            await createNewIssueNote(issueNote);
+            setToastConfig({open: true, message: "Issue note created successfully", type: "success"});
+            setOpenIssueBooks(false);
+        } catch (err: any) {
+            if (err instanceof Error) {
+                setToastConfig({open: true, message: err.message, type: "error"});
+            } else {
+                setToastConfig({open: true, message: "Fail to create new issue note", type: "error"});
+            }
+        }
+    }
+
+    const handleToastOnclose = (state: boolean) => {setToastConfig((prevState: ToastData) => { return { ...prevState, "open": state } })};
 
     return (
         <>
@@ -296,9 +315,16 @@ const Dashboard = () => {
                 >
                     <IssueBooks
                         isDrawerOpen={setOpenIssueBooks}
+                        onConfirm={handleCreateNewIssueNote}
                     />
                 </Box>
             </Drawer>
+            <Toast
+                data={toastConfig}
+                action={{
+                    onClose: handleToastOnclose
+                }}
+            />
         </>
     )
 }

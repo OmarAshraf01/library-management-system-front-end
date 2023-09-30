@@ -5,9 +5,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import React, {SetStateAction, useState} from "react";
 import Toast, {ToastData} from "./Toast";
+import {createNewIssueNote} from "../api/issue-note/createNewIssueNote";
 
 type Props = {
     isDrawerOpen: React.Dispatch<SetStateAction<boolean>>
+    onConfirm: (issueNote: IssueNote) => void;
 }
 
 type ErrorMsgType = {
@@ -20,10 +22,10 @@ export type IssueNote = {
     books: string[]
 }
 
-const IssueBooks = ({isDrawerOpen}: Props) => {
+const IssueBooks = ({isDrawerOpen, onConfirm}: Props) => {
     const [memberId, setMemberId] = useState<string>("");
     const [bookISBN, setBookISBN] = useState<string>("");
-    const [bookISBNArray, setBookISBNArray] = useState<string[]>(["pubudu@gmail.com", "kasun@gmail.com", "supun@gmail.com"]);
+    const [bookISBNArray, setBookISBNArray] = useState<string[]>([]);
     const [error, setError] = useState<ErrorMsgType>({memberIdError: " ", bookIsbnError: " "});
     const [toastConfig, setToastConfig] = useState<ToastData>({ open: false, message: "", type: "success" });
 
@@ -61,18 +63,17 @@ const IssueBooks = ({isDrawerOpen}: Props) => {
             setToastConfig({open: true, message: "Please add issue books isbn to isbn list", type: "error"});
             return;
         }
-        const requestBody = {
-            memberId: memberId,
-            books: bookISBNArray
-        };
-
+        if (bookISBN) {
+            // @ts-ignore
+            document.getElementById("issue-book-isbn").focus();
+            setToastConfig({open: true, message: "Please add typed isbn to isbn list first", type: "error"});
+            return;
+        }
+        const requestBody: IssueNote = {memberId: memberId, books: bookISBNArray};
+        onConfirm(requestBody);
     }
 
     const handleToastOnclose = (state: boolean) => {setToastConfig((prevState: ToastData) => { return { ...prevState, "open": state } })};
-
-    const handleCreateNewIssueNote = async () => {
-
-    }
 
     return (
         <>
