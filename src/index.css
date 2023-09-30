@@ -46,3 +46,7 @@
 .lms-grid .MuiDataGrid-cell:focus {
     outline: none !important;
 }
+
+.MuiFormLabel-asterisk {
+    color: white !important;
+}
