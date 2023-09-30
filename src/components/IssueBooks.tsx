@@ -5,7 +5,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import React, {SetStateAction, useState} from "react";
 import Toast, {ToastData} from "./Toast";
-import {createNewIssueNote} from "../api/issue-note/createNewIssueNote";
 
 type Props = {
     isDrawerOpen: React.Dispatch<SetStateAction<boolean>>
