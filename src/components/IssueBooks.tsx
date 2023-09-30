@@ -20,6 +20,19 @@ const IssueBooks = ({isDrawerOpen}: Props) => {
     const [bookISBNArray, setBookISBNArray] = useState<string[]>(["pubudu@gmail.com", "kasun@gmail.com", "supun@gmail.com"]);
     const [error, setError] = useState<ErrorMsgType>({memberIdError: " ", bookIsbnError: " "});
 
+    const handleClear = () => {
+        setMemberId("");
+        setBookISBN("");
+        setBookISBNArray([]);
+        setError((prevState) => {
+            return {...prevState, "memberIdError": " ", "bookIsbnError": " "}
+        });
+    }
+
+    const handleIssueAction = () => {
+
+    }
+
     return (
         <>
             <Box
@@ -61,10 +74,25 @@ const IssueBooks = ({isDrawerOpen}: Props) => {
                             label={"Member ID"}
                             fullWidth
                             variant={"standard"}
+                            error={(error.memberIdError !== " ")}
                             value={memberId}
-                            // helperText={"Read Only"}
+                            helperText={error.memberIdError}
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-
+                                const {value} = event.target;
+                                if (value.trim() === "") {
+                                    setError((prevState) => {
+                                        return {...prevState, "memberIdError": "Member ID is required"}
+                                    })
+                                } else if (!/^[A-Fa-f\d]{8}(-[A-Fa-f\d]{4}){3}-[A-Fa-f\d]{12}$/.test(value)) {
+                                    setError((prevState) => {
+                                        return {...prevState, "memberIdError": "Enter valid member uuid"}
+                                    })
+                                } else {
+                                    setError((prevState) => {
+                                        return {...prevState, "memberIdError": " "}
+                                    })
+                                }
+                                setMemberId(value);
                             }}
                         />
                     </Grid>
@@ -178,12 +206,14 @@ const IssueBooks = ({isDrawerOpen}: Props) => {
                         sx={{
                             fontWeight: "bold"
                         }}
+                        onClick={handleClear}
                     >
                         Clear
                     </Button>
                     <Button
                         variant={"contained"}
                         sx={{fontWeight: "bold"}}
+                        onClick={handleIssueAction}
                     >
                         Issue
                     </Button>
