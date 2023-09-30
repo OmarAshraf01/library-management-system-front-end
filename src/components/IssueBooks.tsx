@@ -4,6 +4,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import React, {SetStateAction, useState} from "react";
+import Toast, {ToastData} from "./Toast";
 
 type Props = {
     isDrawerOpen: React.Dispatch<SetStateAction<boolean>>
@@ -14,11 +15,17 @@ type ErrorMsgType = {
     bookIsbnError: string;
 }
 
+export type IssueNote = {
+    memberId: string,
+    books: string[]
+}
+
 const IssueBooks = ({isDrawerOpen}: Props) => {
     const [memberId, setMemberId] = useState<string>("");
     const [bookISBN, setBookISBN] = useState<string>("");
     const [bookISBNArray, setBookISBNArray] = useState<string[]>(["pubudu@gmail.com", "kasun@gmail.com", "supun@gmail.com"]);
     const [error, setError] = useState<ErrorMsgType>({memberIdError: " ", bookIsbnError: " "});
+    const [toastConfig, setToastConfig] = useState<ToastData>({ open: false, message: "", type: "success" });
 
     const handleClear = () => {
         setMemberId("");
@@ -30,6 +37,40 @@ const IssueBooks = ({isDrawerOpen}: Props) => {
     }
 
     const handleIssueAction = () => {
+        if (error.memberIdError !== " ") {
+            // @ts-ignore
+            document.getElementById("member-id").focus();
+            return;
+        }
+        if (error.bookIsbnError !== " ") {
+            // @ts-ignore
+            document.getElementById("issue-book-isbn").focus();
+            return;
+        }
+        if (!memberId) {
+            // @ts-ignore
+            document.getElementById("member-id").focus();
+            setError((prevState) => {
+                return {...prevState, "memberIdError": "Member UUID is required"}
+            })
+            return;
+        }
+        if (bookISBNArray.length === 0) {
+            // @ts-ignore
+            document.getElementById("issue-book-isbn").focus();
+            setToastConfig({open: true, message: "Please add issue books isbn to isbn list", type: "error"});
+            return;
+        }
+        const requestBody = {
+            memberId: memberId,
+            books: bookISBNArray
+        };
+
+    }
+
+    const handleToastOnclose = (state: boolean) => {setToastConfig((prevState: ToastData) => { return { ...prevState, "open": state } })};
+
+    const handleCreateNewIssueNote = async () => {
 
     }
 
@@ -81,7 +122,7 @@ const IssueBooks = ({isDrawerOpen}: Props) => {
                                 const {value} = event.target;
                                 if (value.trim() === "") {
                                     setError((prevState) => {
-                                        return {...prevState, "memberIdError": "Member ID is required"}
+                                        return {...prevState, "memberIdError": "Member UUID is required"}
                                     })
                                 } else if (!/^[A-Fa-f\d]{8}(-[A-Fa-f\d]{4}){3}-[A-Fa-f\d]{12}$/.test(value)) {
                                     setError((prevState) => {
@@ -219,6 +260,12 @@ const IssueBooks = ({isDrawerOpen}: Props) => {
                     </Button>
                 </Box>
             </Box>
+            <Toast
+                data={toastConfig}
+                action={{
+                    onClose: handleToastOnclose
+                }}
+            />
         </>
     )
 }

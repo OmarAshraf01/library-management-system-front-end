@@ -1,7 +1,6 @@
 import React, {ChangeEvent, SetStateAction, useEffect, useState} from "react";
 import {Box, Button, Grid, IconButton, TextField, Typography} from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
-import {Member, MemberMode} from "./CreateEditViewMember";
 
 export enum BookMode {
     CREATE = "Create",
