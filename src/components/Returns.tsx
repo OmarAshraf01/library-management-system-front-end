@@ -1,8 +1,10 @@
 import React, {ChangeEvent, SetStateAction, useEffect, useState} from "react";
-import {ToastData} from "./Toast";
+import Toast, {ToastData} from "./Toast";
 import {Box, Button, Grid, IconButton, TextField, Typography} from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SwipeUpOutlinedIcon from '@mui/icons-material/SwipeUpOutlined';
+import DeleteIcon from "@mui/icons-material/Delete";
+import colorConfigs from "../configs/colorConfigs";
 
 type Props = {
     isDrawerOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -72,6 +74,74 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
         setIssueNoteId(0);
         setBookISBN("");
     }
+
+    const handleClear = () => {
+        setMemberId("");
+        setIssueNoteId(0);
+        setBookISBN("");
+        setIssueNoteIdArray([]);
+        setBookISBNArray([]);
+        setError((prevState) => {
+            return {...prevState, "memberIdError": " ", "issueNoteIdError": " ", "bookIsbnError": " "}
+        })
+    }
+
+    const handleReturnAction = () => {
+        if (error.memberIdError !== " ") {
+            // @ts-ignore
+            document.getElementById("return-member-id").focus();
+            return;
+        }
+        if (error.issueNoteIdError !== " ") {
+            // @ts-ignore
+            document.getElementById("issue-note-id").focus();
+            return;
+        }
+        if (error.bookIsbnError !== " ") {
+            // @ts-ignore
+            document.getElementById("return-book-isbn").focus();
+            return;
+        }
+        if (!memberId) {
+            // @ts-ignore
+            document.getElementById("return-member-id").focus();
+            setError((prevState) => {
+                return {...prevState, "memberIdError": "Member UUID is required"}
+            })
+            return;
+        }
+        if (issueNoteIdArray.length === 0 || bookISBNArray.length === 0) {
+            setToastConfig({open: true, message: "Please add issue items to the list", type: "error"});
+            return;
+        }
+        if (issueNoteId !== 0) {
+            // @ts-ignore
+            document.getElementById("issue-note-id").focus();
+            setToastConfig({open: true, message: "Please add typed issue note id to list first", type: "error"});
+            return;
+        }
+        if (bookISBN) {
+            // @ts-ignore
+            document.getElementById("return-book-isbn").focus();
+            setToastConfig({open: true, message: "Please add typed isbn to list first", type: "error"});
+            return;
+        }
+        const returnItems = [];
+        for (let i = 0; i < issueNoteIdArray.length; i++) {
+            const temp = {
+                "issueNoteId": issueNoteIdArray[i],
+                "isbn": bookISBNArray[i]
+            }
+            returnItems.push(temp);
+        }
+        const requestBody: ReturnNote = {
+            memberId: memberId,
+            returnItems: returnItems
+        }
+        onConfirm(requestBody);
+    }
+
+    const handleToastOnclose = (state: boolean) => {setToastConfig((prevState: ToastData) => { return { ...prevState, "open": state } })};
 
     return (
         <>
@@ -230,8 +300,80 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
                             Add Issue Item
                         </Button>
                     </Grid>
+                    <Grid item xs={12}>
+                        {issueNoteIdArray.map((issueNoteId, index) => {
+                            const isbn = bookISBNArray[index];
+                            return (
+                                <Box
+                                    key={index}
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        mr: "12px"
+                                    }}
+                                >
+                                    <Typography
+                                        sx={{
+                                            color: "white",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            maxWidth: "390px",
+                                            pt: "10px"
+                                        }}
+                                    >
+                                        {"ID: " + issueNoteId + " , ISBN: " + isbn}
+                                    </Typography>
+                                    <IconButton
+                                        edge="end"
+                                        aria-label="delete"
+                                        onClick={() => {
+                                            setBookISBNArray(bookISBNArray.filter((isbnID: string, index: number) => {
+                                                return (isbnID !== isbn)
+                                            }))
+                                            setIssueNoteIdArray(issueNoteIdArray.filter((id, index) => {
+                                                return (id !== issueNoteId)
+                                            }))
+                                        }}>
+                                        <DeleteIcon sx={{color: "white"}} />
+                                    </IconButton>
+                                </Box>
+                            )
+                        })}
+                    </Grid>
                 </Grid>
+                <Box
+                    display={"flex"}
+                    justifyContent={"flex-end"}
+                    gap={2}
+                    pb={2} pt={2} pr={4}
+                    bgcolor={colorConfigs.mainBg}
+                >
+                    <Button
+                        variant={"contained"}
+                        color={"inherit"}
+                        sx={{
+                            fontWeight: "bold"
+                        }}
+                        onClick={handleClear}
+                    >
+                        Clear
+                    </Button>
+                    <Button
+                        variant={"contained"}
+                        sx={{fontWeight: "bold"}}
+                        onClick={handleReturnAction}
+                    >
+                        Return
+                    </Button>
+                </Box>
             </Box>
+            <Toast
+                data={toastConfig}
+                action={{
+                    onClose: handleToastOnclose
+                }}
+            />
         </>
     )
 }

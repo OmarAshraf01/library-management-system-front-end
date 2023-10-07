@@ -33,7 +33,7 @@ const Dashboard = () => {
     }
 
     const handleCreateNewReturnNote = async (returnNote: ReturnNote) => {
-
+        console.log(returnNote);
     }
 
     const handleToastOnclose = (state: boolean) => {setToastConfig((prevState: ToastData) => { return { ...prevState, "open": state } })};
