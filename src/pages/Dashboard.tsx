@@ -11,9 +11,11 @@ import React, {useState} from "react";
 import IssueBooks, {IssueNote} from "../components/IssueBooks";
 import {createNewIssueNote} from "../api/issue-note/createNewIssueNote";
 import Toast, {ToastData} from "../components/Toast";
+import Returns, {ReturnNote} from "../components/Returns";
 
 const Dashboard = () => {
     const [openIssueBooks, setOpenIssueBooks] = useState<boolean>(false);
+    const [openReturns, setOpenReturns] = useState<boolean>(false);
     const [toastConfig, setToastConfig] = useState<ToastData>({ open: false, message: "", type: "success" });
 
     const handleCreateNewIssueNote = async (issueNote: IssueNote) => {
@@ -28,6 +30,10 @@ const Dashboard = () => {
                 setToastConfig({open: true, message: "Fail to create new issue note", type: "error"});
             }
         }
+    }
+
+    const handleCreateNewReturnNote = async (returnNote: ReturnNote) => {
+
     }
 
     const handleToastOnclose = (state: boolean) => {setToastConfig((prevState: ToastData) => { return { ...prevState, "open": state } })};
@@ -194,7 +200,8 @@ const Dashboard = () => {
                                     textDecoration: 'none',
                                     color: "#088F8F"
                                 }}
-                                to={"/handle-returns"}>
+                                onClick={() => {setOpenReturns(true)}}
+                                to={"#"}>
                                 <Box
                                     id={"handle-returns"}
                                     bgcolor={"white"}
@@ -316,6 +323,23 @@ const Dashboard = () => {
                     <IssueBooks
                         isDrawerOpen={setOpenIssueBooks}
                         onConfirm={handleCreateNewIssueNote}
+                    />
+                </Box>
+            </Drawer>
+            <Drawer
+                open={openReturns}
+                anchor={"right"}
+                onClose={() => setOpenReturns(false)}
+            >
+                <Box
+                    maxWidth={"400px"}
+                    role={"presentation"}
+                    height={"100vh"}
+                    bgcolor={colorConfigs.mainBg}
+                >
+                    <Returns
+                        isDrawerOpen={setOpenReturns}
+                        onConfirm={handleCreateNewReturnNote}
                     />
                 </Box>
             </Drawer>
