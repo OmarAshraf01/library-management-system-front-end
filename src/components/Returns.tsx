@@ -1,9 +1,8 @@
-import React, {SetStateAction, useEffect, useState} from "react";
+import React, {ChangeEvent, SetStateAction, useEffect, useState} from "react";
 import {ToastData} from "./Toast";
-import {Box, Grid, IconButton, TextField, Typography} from "@mui/material";
+import {Box, Button, Grid, IconButton, TextField, Typography} from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SwipeUpOutlinedIcon from '@mui/icons-material/SwipeUpOutlined';
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 type Props = {
     isDrawerOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -29,7 +28,7 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
     const [issueNoteId, setIssueNoteId] = useState<number>(0);
     const [bookISBN, setBookISBN] = useState<string>("");
     const [issueNoteIdArray, setIssueNoteIdArray] = useState<number[]>([]);
-    const [bookIsbnArray, setBookIsbnArray] = useState<string[]>([]);
+    const [bookISBNArray, setBookISBNArray] = useState<string[]>([]);
     const [error, setError] = useState<ErrorMsgType>({memberIdError: "", issueNoteIdError: "", bookIsbnError: ""});
     const [toastConfig, setToastConfig] = useState<ToastData>({ open: false, message: "", type: "success" });
 
@@ -39,6 +38,10 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
             document.getElementById("return-member-id").focus();
         }, 500)
     }, [])
+
+    const handleAddIssueNoteItems = () => {
+
+    }
 
     return (
         <>
@@ -106,17 +109,6 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
                     <Grid item xs={12}>
                         <TextField
                             required
-                            InputProps={{
-                                endAdornment: (
-                                    <IconButton
-                                        onClick={() => {
-
-                                        }}
-                                    >
-                                        <AddCircleIcon sx={{color: "white"}} />
-                                    </IconButton>
-                                )
-                            }}
                             id={"issue-note-id"}
                             className={"lms-input-field"}
                             name={"issue-note-id"}
@@ -124,31 +116,86 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
                             fullWidth
                             variant={"standard"}
                             type={"number"}
+                            value={(issueNoteId === 0) ? "" : issueNoteId}
+                            inputProps={{min: "0", max: "10000"}}
+                            helperText={error.issueNoteIdError}
+                            onKeyDown={(event) => {
+                                if (event.key === "e" || event.key === "-" || event.key === "." || event.key === "+" || event.key === "E") {
+                                    event.preventDefault();
+                                }
+                            }}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                const {value} = event.target;
+                                if (value === "") {
+                                    setIssueNoteId(0);
+                                    setError((prevState) => {
+                                        return {...prevState, "issueNoteIdError": "Issue note id is required"}
+                                    })
+                                } else if (!isNaN(Number(value)) && Number(value) <= 10000) {
+                                    setIssueNoteId(Number(value));
+                                    setError((prevState) => {
+                                        return {...prevState, "issueNoteIdError": ""}
+                                    })
+                                }
+                            }}
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField
-                            required
-                            InputProps={{
-                                endAdornment: (
-                                    <IconButton
-                                        onClick={() => {
-
-                                        }}
-                                    >
-                                        <AddCircleIcon sx={{color: "white"}} />
-                                    </IconButton>
-                                )
-                            }}
-                            id={"return-book-isbn"}
-                            className={"lms-input-field"}
-                            name={"return-book-isbn"}
-                            label={"Book ISBN"}
-                            fullWidth
-                            variant={"standard"}
-                        />
+                        <Box height={70}>
+                            <TextField
+                                required
+                                id={"return-book-isbn"}
+                                className={"lms-input-field"}
+                                name={"return-book-isbn"}
+                                label={"Book ISBN"}
+                                fullWidth
+                                variant={"standard"}
+                                error={error.bookIsbnError !== " "}
+                                value={bookISBN}
+                                helperText={error.bookIsbnError}
+                                onKeyDown={(event) => {
+                                    if (event.key === "Enter" && bookISBN !== "" && error.bookIsbnError === " ") {
+                                        setBookISBNArray((prevState) => {return [...prevState, bookISBN]})
+                                        setBookISBN("")
+                                    }
+                                }}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    const {value} = event.target;
+                                    if (value.trim() === "") {
+                                        setError((prevState) => {
+                                            return {...prevState, "bookIsbnError": "Book ISBN is required"}
+                                        });
+                                    } else if (!/^\d{3}-\d-\d{2}-\d{6}-\d$/.test(value)) {
+                                        setError((prevState) => {
+                                            return {...prevState, "bookIsbnError": "Enter a valid book ISBN"}
+                                        });
+                                    } else if (bookISBNArray.includes(value)) {
+                                        setError((prevState) => {
+                                            return {...prevState, "bookIsbnError": "ISBN List already includes this Book ISBN."}
+                                        });
+                                    } else {
+                                        setError((prevState) => {
+                                            return {...prevState, "bookIsbnError": " "}
+                                        });
+                                    }
+                                    setBookISBN(value);
+                                }}
+                            />
+                        </Box>
                     </Grid>
-
+                    <Grid item xs={12}>
+                        <Button
+                            fullWidth
+                            variant={"contained"}
+                            color={"inherit"}
+                            sx={{
+                                fontWeight: "bold"
+                            }}
+                            onClick={handleAddIssueNoteItems}
+                        >
+                            Add Issue Item
+                        </Button>
+                    </Grid>
                 </Grid>
             </Box>
         </>
