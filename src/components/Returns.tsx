@@ -29,7 +29,7 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
     const [bookISBN, setBookISBN] = useState<string>("");
     const [issueNoteIdArray, setIssueNoteIdArray] = useState<number[]>([]);
     const [bookISBNArray, setBookISBNArray] = useState<string[]>([]);
-    const [error, setError] = useState<ErrorMsgType>({memberIdError: "", issueNoteIdError: "", bookIsbnError: ""});
+    const [error, setError] = useState<ErrorMsgType>({memberIdError: " ", issueNoteIdError: " ", bookIsbnError: " "});
     const [toastConfig, setToastConfig] = useState<ToastData>({ open: false, message: "", type: "success" });
 
     useEffect(() => {
@@ -40,7 +40,37 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
     }, [])
 
     const handleAddIssueNoteItems = () => {
-
+        if (error.issueNoteIdError !== " ") {
+            // @ts-ignore
+            document.getElementById("issue-note-id").focus();
+            return;
+        }
+        if (error.bookIsbnError !== " ") {
+            // @ts-ignore
+            document.getElementById("return-book-isbn").focus();
+            return;
+        }
+        if (issueNoteId === 0 || !bookISBN) {
+            if (!bookISBN) {
+                // @ts-ignore
+                document.getElementById("return-book-isbn").focus();
+                setError((prevState) => {
+                    return {...prevState, "bookIsbnError": "Book ISBN is required"}
+                })
+            }
+            if (issueNoteId === 0) {
+                // @ts-ignore
+                document.getElementById("issue-note-id").focus();
+                setError((prevState) => {
+                    return {...prevState, "issueNoteIdError": "Issue note id is required"}
+                })
+            }
+            return;
+        }
+        setIssueNoteIdArray((prevState) => {return [...prevState, issueNoteId]});
+        setBookISBNArray((prevState) => {return [...prevState, bookISBN]});
+        setIssueNoteId(0);
+        setBookISBN("");
     }
 
     return (
@@ -132,56 +162,60 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
                                         return {...prevState, "issueNoteIdError": "Issue note id is required"}
                                     })
                                 } else if (!isNaN(Number(value)) && Number(value) <= 10000) {
+                                    if (issueNoteIdArray.includes(Number(value))) {
+                                        setError((prevState) => {
+                                            return {...prevState, "issueNoteIdError": "Return item list already includes this issue note id."}
+                                        });
+                                    } else {
+                                        setError((prevState) => {
+                                            return {...prevState, "issueNoteIdError": " "}
+                                        })
+                                    }
                                     setIssueNoteId(Number(value));
-                                    setError((prevState) => {
-                                        return {...prevState, "issueNoteIdError": ""}
-                                    })
                                 }
                             }}
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Box height={70}>
-                            <TextField
-                                required
-                                id={"return-book-isbn"}
-                                className={"lms-input-field"}
-                                name={"return-book-isbn"}
-                                label={"Book ISBN"}
-                                fullWidth
-                                variant={"standard"}
-                                error={error.bookIsbnError !== " "}
-                                value={bookISBN}
-                                helperText={error.bookIsbnError}
-                                onKeyDown={(event) => {
-                                    if (event.key === "Enter" && bookISBN !== "" && error.bookIsbnError === " ") {
-                                        setBookISBNArray((prevState) => {return [...prevState, bookISBN]})
-                                        setBookISBN("")
-                                    }
-                                }}
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                    const {value} = event.target;
-                                    if (value.trim() === "") {
-                                        setError((prevState) => {
-                                            return {...prevState, "bookIsbnError": "Book ISBN is required"}
-                                        });
-                                    } else if (!/^\d{3}-\d-\d{2}-\d{6}-\d$/.test(value)) {
-                                        setError((prevState) => {
-                                            return {...prevState, "bookIsbnError": "Enter a valid book ISBN"}
-                                        });
-                                    } else if (bookISBNArray.includes(value)) {
-                                        setError((prevState) => {
-                                            return {...prevState, "bookIsbnError": "ISBN List already includes this Book ISBN."}
-                                        });
-                                    } else {
-                                        setError((prevState) => {
-                                            return {...prevState, "bookIsbnError": " "}
-                                        });
-                                    }
-                                    setBookISBN(value);
-                                }}
-                            />
-                        </Box>
+                        <TextField
+                            required
+                            id={"return-book-isbn"}
+                            className={"lms-input-field"}
+                            name={"return-book-isbn"}
+                            label={"Book ISBN"}
+                            fullWidth
+                            variant={"standard"}
+                            error={error.bookIsbnError !== " "}
+                            value={bookISBN}
+                            helperText={error.bookIsbnError}
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter" && bookISBN !== "" && error.bookIsbnError === " ") {
+                                    setBookISBNArray((prevState) => {return [...prevState, bookISBN]})
+                                    setBookISBN("")
+                                }
+                            }}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                const {value} = event.target;
+                                if (value.trim() === "") {
+                                    setError((prevState) => {
+                                        return {...prevState, "bookIsbnError": "Book ISBN is required"}
+                                    });
+                                } else if (!/^\d{3}-\d-\d{2}-\d{6}-\d$/.test(value)) {
+                                    setError((prevState) => {
+                                        return {...prevState, "bookIsbnError": "Enter a valid book ISBN"}
+                                    });
+                                } else if (bookISBNArray.includes(value)) {
+                                    setError((prevState) => {
+                                        return {...prevState, "bookIsbnError": "Return item list already includes this Book ISBN."}
+                                    });
+                                } else {
+                                    setError((prevState) => {
+                                        return {...prevState, "bookIsbnError": " "}
+                                    });
+                                }
+                                setBookISBN(value);
+                            }}
+                        />
                     </Grid>
                     <Grid item xs={12}>
                         <Button
