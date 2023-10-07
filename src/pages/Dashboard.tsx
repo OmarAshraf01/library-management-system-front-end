@@ -12,6 +12,7 @@ import IssueBooks, {IssueNote} from "../components/IssueBooks";
 import {createNewIssueNote} from "../api/issue-note/createNewIssueNote";
 import Toast, {ToastData} from "../components/Toast";
 import Returns, {ReturnNote} from "../components/Returns";
+import {createNewReturnNote} from "../api/return-note/createNewReturnNote";
 
 const Dashboard = () => {
     const [openIssueBooks, setOpenIssueBooks] = useState<boolean>(false);
@@ -33,7 +34,17 @@ const Dashboard = () => {
     }
 
     const handleCreateNewReturnNote = async (returnNote: ReturnNote) => {
-        console.log(returnNote);
+        try {
+            await createNewReturnNote(returnNote);
+            setToastConfig({open: true, message: "Return note created successfully", type: "success"});
+            setOpenReturns(false);
+        } catch (err: any) {
+            if (err instanceof Error) {
+                setToastConfig({open: true, message: err.message, type: "error"});
+            } else {
+                setToastConfig({open: true, message: "Fail to create new return note", type: "error"});
+            }
+        }
     }
 
     const handleToastOnclose = (state: boolean) => {setToastConfig((prevState: ToastData) => { return { ...prevState, "open": state } })};

@@ -9,5 +9,8 @@ export const CREATE_NEW_BOOK = () => "/books";
 export const EDIT_EXISTING_BOOK = (bookISBN: string) => `/books/${bookISBN}`;
 export const GET_BOOKS_BY_QUERY = (query: string) => `/books?q=${query}`;
 
-// IssueNote API end points.
+// IssueNote API end point.
 export const CREATE_NEW_ISSUE_NOTE = () => "/issue-notes";
+
+// ReturnNote API end point.
+export const CREATE_NEW_RETURN_NOTE = () => "/returns";
