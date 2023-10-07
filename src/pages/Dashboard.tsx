@@ -71,7 +71,7 @@ const Dashboard = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <Typography pt={2} pl={2} pr={2} color={"white"} textAlign={"center"} fontStyle={"italic"}>
+                        <Typography pb={(window.innerWidth <= 1200) ? 0 : 2} pt={2} pl={2} pr={2} color={"white"} textAlign={"center"} fontStyle={"italic"}>
                             A system that enables library administrator to manage members, manage books, manage issue
                             book details and handle returns
                         </Typography>
@@ -244,7 +244,7 @@ const Dashboard = () => {
                     </Grid>
                 </Grid>
                 <Box
-                    pt={(window.innerWidth <= 1200) ? 2 : 10} pl={5} pr={5}
+                    pt={(window.innerWidth <= 1200) ? 2 : 7} pl={5} pr={5}
                     textAlign={"justify"}
                     color={"white"}
                 >
