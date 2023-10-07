@@ -226,7 +226,7 @@ const Dashboard = () => {
                     </Grid>
                 </Grid>
                 <Box
-                    pt={2} pl={5} pr={5}
+                    pt={(window.innerWidth <= 1200) ? 2 : 10} pl={5} pr={5}
                     textAlign={"justify"}
                     color={"white"}
                 >

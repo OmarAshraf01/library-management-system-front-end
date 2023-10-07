@@ -212,7 +212,7 @@ const ManageBooks = () => {
                     display={"flex"}
                     justifyContent={"center"}
                 >
-                    <Grid maxWidth={"1200px"} container pt={2} pl={3} pr={3}>
+                    <Grid maxWidth={"2000px"} container pt={2} pl={3} pr={3}>
                         <Grid
                             display={"flex"}
                             justifyContent={"center"}
@@ -231,7 +231,7 @@ const ManageBooks = () => {
                                 Manage Books
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} pt={4}>
+                        <Grid item xs={12} pt={5}>
                             <Box
                                 display={"flex"}
                                 gap={2}
@@ -282,7 +282,7 @@ const ManageBooks = () => {
                                 </Button>
                             </Box>
                         </Grid>
-                        <Grid item xs={12} pt={3} pb={7}>
+                        <Grid item xs={12} pt={5} pb={7}>
                             <Box
                                 border={"2px solid white"}
                                 borderRadius={"6px"}
