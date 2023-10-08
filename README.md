@@ -35,11 +35,19 @@ This is the **React Front End** of the **library management system.** Highlighte
 
 #### Desktop View Demo Video
 
-https://github.com/PubuduJ/library-management-system-front-end/assets/109058596/d4430fe7-11f0-48de-8e9a-553e650756d1
+
+
+https://github.com/PubuduJ/library-management-system-front-end/assets/109058596/a08665a5-eb35-42ff-9600-49a3610c684d
+
+
 
 #### Mobile View Demo Video
 
-https://github.com/PubuduJ/library-management-system-front-end/assets/109058596/a09e2d92-82ec-4f00-b984-94c6fd9e5310
+
+
+https://github.com/PubuduJ/library-management-system-front-end/assets/109058596/3c646800-5729-4f4d-a4f5-f60acefe823a
+
+
 
 ## Used Technologies
 
