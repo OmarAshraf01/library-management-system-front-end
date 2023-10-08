@@ -33,6 +33,10 @@ This is the **React Front End** of the **library management system.** Highlighte
 5. Handle Returns<br>
    <img src="assets/handle_returns.png" alt="handle-returns" width="700px"/>
 
+#### Mobile View Demo Video
+
+https://github.com/PubuduJ/library-management-system-front-end/assets/109058596/a09e2d92-82ec-4f00-b984-94c6fd9e5310
+
 ## Used Technologies
 
 - React
