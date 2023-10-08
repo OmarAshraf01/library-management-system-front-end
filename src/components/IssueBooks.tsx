@@ -41,7 +41,7 @@ const IssueBooks = ({isDrawerOpen, onConfirm}: Props) => {
     const handleIssueAction = () => {
         if (error.memberIdError !== " ") {
             // @ts-ignore
-            document.getElementById("member-id").focus();
+            document.getElementById("issue-member-id").focus();
             return;
         }
         if (error.bookIsbnError !== " ") {
@@ -51,7 +51,7 @@ const IssueBooks = ({isDrawerOpen, onConfirm}: Props) => {
         }
         if (!memberId) {
             // @ts-ignore
-            document.getElementById("member-id").focus();
+            document.getElementById("issue-member-id").focus();
             setError((prevState) => {
                 return {...prevState, "memberIdError": "Member UUID is required"}
             })
