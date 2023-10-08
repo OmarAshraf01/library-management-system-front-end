@@ -5,6 +5,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import SwipeUpOutlinedIcon from '@mui/icons-material/SwipeUpOutlined';
 import DeleteIcon from "@mui/icons-material/Delete";
 import colorConfigs from "../configs/colorConfigs";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 type Props = {
     isDrawerOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -29,7 +30,6 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
     const [memberId, setMemberId] = useState<string>("");
     const [issueNoteId, setIssueNoteId] = useState<number>(0);
     const [bookISBN, setBookISBN] = useState<string>("");
-    const [issueNoteIdArray, setIssueNoteIdArray] = useState<number[]>([]);
     const [bookISBNArray, setBookISBNArray] = useState<string[]>([]);
     const [error, setError] = useState<ErrorMsgType>({memberIdError: " ", issueNoteIdError: " ", bookIsbnError: " "});
     const [toastConfig, setToastConfig] = useState<ToastData>({ open: false, message: "", type: "success" });
@@ -41,45 +41,10 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
         }, 500)
     }, [])
 
-    const handleAddIssueNoteItems = () => {
-        if (error.issueNoteIdError !== " ") {
-            // @ts-ignore
-            document.getElementById("issue-note-id").focus();
-            return;
-        }
-        if (error.bookIsbnError !== " ") {
-            // @ts-ignore
-            document.getElementById("return-book-isbn").focus();
-            return;
-        }
-        if (issueNoteId === 0 || !bookISBN) {
-            if (!bookISBN) {
-                // @ts-ignore
-                document.getElementById("return-book-isbn").focus();
-                setError((prevState) => {
-                    return {...prevState, "bookIsbnError": "Book ISBN is required"}
-                })
-            }
-            if (issueNoteId === 0) {
-                // @ts-ignore
-                document.getElementById("issue-note-id").focus();
-                setError((prevState) => {
-                    return {...prevState, "issueNoteIdError": "Issue note id is required"}
-                })
-            }
-            return;
-        }
-        setIssueNoteIdArray((prevState) => {return [...prevState, issueNoteId]});
-        setBookISBNArray((prevState) => {return [...prevState, bookISBN]});
-        setIssueNoteId(0);
-        setBookISBN("");
-    }
-
     const handleClear = () => {
         setMemberId("");
         setIssueNoteId(0);
         setBookISBN("");
-        setIssueNoteIdArray([]);
         setBookISBNArray([]);
         setError((prevState) => {
             return {...prevState, "memberIdError": " ", "issueNoteIdError": " ", "bookIsbnError": " "}
@@ -102,22 +67,25 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
             document.getElementById("return-book-isbn").focus();
             return;
         }
-        if (!memberId) {
-            // @ts-ignore
-            document.getElementById("return-member-id").focus();
-            setError((prevState) => {
-                return {...prevState, "memberIdError": "Member UUID is required"}
-            })
+        if (!memberId || issueNoteId === 0) {
+            if (issueNoteId === 0) {
+                // @ts-ignore
+                document.getElementById("issue-note-id").focus();
+                setError((prevState) => {
+                    return {...prevState, "memberIdError": "Issue note id is required"}
+                })
+            }
+            if (!memberId) {
+                // @ts-ignore
+                document.getElementById("return-member-id").focus();
+                setError((prevState) => {
+                    return {...prevState, "memberIdError": "Member UUID is required"}
+                })
+            }
             return;
         }
-        if (issueNoteIdArray.length === 0 || bookISBNArray.length === 0) {
+        if (bookISBNArray.length === 0) {
             setToastConfig({open: true, message: "Please add issue items to the list", type: "error"});
-            return;
-        }
-        if (issueNoteId !== 0) {
-            // @ts-ignore
-            document.getElementById("issue-note-id").focus();
-            setToastConfig({open: true, message: "Please add typed issue note id to list first", type: "error"});
             return;
         }
         if (bookISBN) {
@@ -127,9 +95,9 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
             return;
         }
         const returnItems = [];
-        for (let i = 0; i < issueNoteIdArray.length; i++) {
+        for (let i = 0; i < bookISBNArray.length; i++) {
             const temp = {
-                "issueNoteId": issueNoteIdArray[i],
+                "issueNoteId": issueNoteId,
                 "isbn": bookISBNArray[i]
             }
             returnItems.push(temp);
@@ -243,6 +211,20 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
                     <Grid item xs={12}>
                         <TextField
                             required
+                            InputProps={{
+                                endAdornment: (
+                                    <IconButton
+                                        onClick={() => {
+                                            if (bookISBN !== "" && error.bookIsbnError === " ") {
+                                                setBookISBNArray((prevState) => {return [...prevState, bookISBN]})
+                                                setBookISBN("")
+                                            }
+                                        }}
+                                    >
+                                        <AddCircleIcon sx={{color: "white"}} />
+                                    </IconButton>
+                                )
+                            }}
                             id={"return-book-isbn"}
                             className={"lms-input-field"}
                             name={"return-book-isbn"}
@@ -282,21 +264,7 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Button
-                            fullWidth
-                            variant={"contained"}
-                            color={"inherit"}
-                            sx={{
-                                fontWeight: "bold"
-                            }}
-                            onClick={handleAddIssueNoteItems}
-                        >
-                            Add Issue Item
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12}>
-                        {issueNoteIdArray.map((issueNoteId, index) => {
-                            const isbn = bookISBNArray[index];
+                        {bookISBNArray.map((isbn: string, index: number) => {
                             return (
                                 <Box
                                     key={index}
@@ -316,7 +284,7 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
                                             pt: "10px"
                                         }}
                                     >
-                                        {"ID: " + issueNoteId + " , ISBN: " + isbn}
+                                        {isbn}
                                     </Typography>
                                     <IconButton
                                         edge="end"
@@ -325,14 +293,11 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
                                             setBookISBNArray(bookISBNArray.filter((isbnID: string, index: number) => {
                                                 return (isbnID !== isbn)
                                             }))
-                                            setIssueNoteIdArray(issueNoteIdArray.filter((id, index) => {
-                                                return (id !== issueNoteId)
-                                            }))
                                         }}>
                                         <DeleteIcon sx={{color: "white"}} />
                                     </IconButton>
                                 </Box>
-                            )
+                            );
                         })}
                     </Grid>
                 </Grid>
