@@ -7,16 +7,16 @@ Description
 #### Images of the User Interfaces
 
 1. Dashboard<br>
-   <img src="assets/dashboard.png" alt="dashboard" width="700px"/><br><br>
+   <img src="assets/dashboard.png" alt="dashboard" width="700px"/>
 
 2. Manage Members<br>
-   <img src="assets/manage_members.png" alt="manage-members" width="700px"/><br><br>
+   <img src="assets/manage_members.png" alt="manage-members" width="700px"/>
 
 3. Manage Books<br>
-   <img src="assets/manage_books.png" alt="manage-books" width="700px"/><br><br>
+   <img src="assets/manage_books.png" alt="manage-books" width="700px"/>
 
 4. Issue Books<br>
-   <img src="assets/issue_books.png" alt="issue-books" width="700px"/><br><br>
+   <img src="assets/issue_books.png" alt="issue-books" width="700px"/>
 
 5. Handle Returns<br>
    <img src="assets/handle_returns.png" alt="handle-returns" width="700px"/>
