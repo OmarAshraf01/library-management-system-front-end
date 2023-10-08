@@ -2,7 +2,19 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Description
+This is the **React Front End** of the **library management system.** Highlighted features of the system is as follows,
+
+- Members are registered to the system by [**UUID**](https://en.wikipedia.org/wiki/Universally_unique_identifier), and no two members can have the same contact number.
+- Books are registered to the system by international standard book number (isbn).
+- When members take books from the library they will receive an issue note.
+- The issue note contains all the take away book ISBNs along with the member UUID.
+- All issue notes have unique issue id to uniquely identify them when the books are returned.
+- Issue note can only have maximum 3 distinct ISBNs.
+- A member cannot take the same book from the system twice at the same time or at two different times (with another issue note).
+- A member can only take maximum of 3 different books from the system. If he/she needs another, he/she must return a book that he/she already got.
+
+**Jakarta Servlet Back End** of the project can be visited by clicking [**here.**](https://github.com/PubuduJ/library-management-system-back-end)<br>
+**Spring Boot Back End** of the project can be visited by clicking [**here.**](https://github.com/PubuduJ/library-management-system-spring-boot-back-end)
 
 #### Images of the User Interfaces
 
