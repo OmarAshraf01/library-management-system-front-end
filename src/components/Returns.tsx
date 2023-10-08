@@ -232,15 +232,9 @@ const Returns = ({isDrawerOpen, onConfirm}: Props) => {
                                         return {...prevState, "issueNoteIdError": "Issue note id is required"}
                                     })
                                 } else if (!isNaN(Number(value)) && Number(value) <= 10000) {
-                                    if (issueNoteIdArray.includes(Number(value))) {
-                                        setError((prevState) => {
-                                            return {...prevState, "issueNoteIdError": "Return item list already includes this issue note id."}
-                                        });
-                                    } else {
-                                        setError((prevState) => {
-                                            return {...prevState, "issueNoteIdError": " "}
-                                        })
-                                    }
+                                    setError((prevState) => {
+                                        return {...prevState, "issueNoteIdError": " "}
+                                    })
                                     setIssueNoteId(Number(value));
                                 }
                             }}
